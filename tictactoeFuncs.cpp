@@ -203,7 +203,11 @@ int cornerOpen(array<array<char, ROWS>, COLS>&board) {
 };
 
 // CPU checks if there is a space available next to its prior move to be made
+<<<<<<< HEAD
 bool spaceOverOpen(array<array<char, ROWS>, COLS>&board) {
+=======
+bool spaceOverOpen(array<array<char, ROWS>, COLS>&board, int lastPlayed) {
+>>>>>>> 838665d9016d793fa8e5a8c919e1e5de8db431cf
     int playedRow, playedCol, row, col;
     bool found = false;
 
@@ -316,7 +320,11 @@ int cpuMoveMedium(array<array<char, ROWS>, COLS>&board, char cpu, char player) {
 // Move is given a list to "think" through, the hardest level of difficulty
 int cpuMoveHard(array<array<char, ROWS>, COLS>&board, char cpu, char player, int turn) {
 
+<<<<<<< HEAD
     int centerMov, cornerMov;
+=======
+    array<array<char, ROWS>, COLS>testBoard = board;
+>>>>>>> 838665d9016d793fa8e5a8c919e1e5de8db431cf
 
     int winMov = findWinningMove(board, cpu);
     if (winMov != -1)
@@ -326,6 +334,7 @@ int cpuMoveHard(array<array<char, ROWS>, COLS>&board, char cpu, char player, int
     if (blockMov != -1)
         return blockMov;
 
+<<<<<<< HEAD
     if (turn % 2 == 0) {
         centerMov = takeCenter(board);
         if (centerMov != -1)
@@ -351,13 +360,25 @@ int cpuMoveHard(array<array<char, ROWS>, COLS>&board, char cpu, char player, int
                 return centerMov;
         }
     }
+=======
+    int cornerMov = cornerOpen(board);
+    if (cornerMov != -1)
+        return cornerMov;
+
+    int centerMov = takeCenter(board);
+    if (centerMov != -1)
+        return centerMov;
+>>>>>>> 838665d9016d793fa8e5a8c919e1e5de8db431cf
 
     int position = cpuMoveEasy();
 
     return(position);
 };
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 838665d9016d793fa8e5a8c919e1e5de8db431cf
 // Calls all functions to be capable of playing Tic-Tac-Toe with someone else
 void playTicTacToe(array<array<char, ROWS>, COLS>&board) {
 
