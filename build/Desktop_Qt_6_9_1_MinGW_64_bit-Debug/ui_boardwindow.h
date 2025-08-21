@@ -30,10 +30,10 @@ public:
     QPushButton *area7;
     QPushButton *area8;
     QPushButton *area9;
-    QFrame *line;
-    QFrame *line_2;
-    QFrame *line_3;
-    QFrame *line_4;
+    QFrame *line1;
+    QFrame *line2;
+    QFrame *line3;
+    QFrame *line4;
     QTextBrowser *playerPrompt;
     QPushButton *gameExitButton;
     QPushButton *gameExitConfirm;
@@ -42,6 +42,8 @@ public:
     QTextBrowser *exitPromptMenu;
     QPushButton *menuExit;
     QPushButton *closeProgram;
+    QPushButton *goFirst;
+    QPushButton *goSecond;
 
     void setupUi(QWidget *boardwindow)
     {
@@ -75,26 +77,26 @@ public:
         area9 = new QPushButton(boardwindow);
         area9->setObjectName("area9");
         area9->setGeometry(QRect(600, 390, 61, 41));
-        line = new QFrame(boardwindow);
-        line->setObjectName("line");
-        line->setGeometry(QRect(450, 170, 20, 301));
-        line->setFrameShape(QFrame::Shape::VLine);
-        line->setFrameShadow(QFrame::Shadow::Sunken);
-        line_2 = new QFrame(boardwindow);
-        line_2->setObjectName("line_2");
-        line_2->setGeometry(QRect(570, 170, 20, 301));
-        line_2->setFrameShape(QFrame::Shape::VLine);
-        line_2->setFrameShadow(QFrame::Shadow::Sunken);
-        line_3 = new QFrame(boardwindow);
-        line_3->setObjectName("line_3");
-        line_3->setGeometry(QRect(347, 270, 351, 20));
-        line_3->setFrameShape(QFrame::Shape::HLine);
-        line_3->setFrameShadow(QFrame::Shadow::Sunken);
-        line_4 = new QFrame(boardwindow);
-        line_4->setObjectName("line_4");
-        line_4->setGeometry(QRect(350, 370, 341, 16));
-        line_4->setFrameShape(QFrame::Shape::HLine);
-        line_4->setFrameShadow(QFrame::Shadow::Sunken);
+        line1 = new QFrame(boardwindow);
+        line1->setObjectName("line1");
+        line1->setGeometry(QRect(450, 170, 20, 301));
+        line1->setFrameShape(QFrame::Shape::VLine);
+        line1->setFrameShadow(QFrame::Shadow::Sunken);
+        line2 = new QFrame(boardwindow);
+        line2->setObjectName("line2");
+        line2->setGeometry(QRect(570, 170, 20, 301));
+        line2->setFrameShape(QFrame::Shape::VLine);
+        line2->setFrameShadow(QFrame::Shadow::Sunken);
+        line3 = new QFrame(boardwindow);
+        line3->setObjectName("line3");
+        line3->setGeometry(QRect(347, 270, 351, 20));
+        line3->setFrameShape(QFrame::Shape::HLine);
+        line3->setFrameShadow(QFrame::Shadow::Sunken);
+        line4 = new QFrame(boardwindow);
+        line4->setObjectName("line4");
+        line4->setGeometry(QRect(350, 370, 341, 16));
+        line4->setFrameShape(QFrame::Shape::HLine);
+        line4->setFrameShadow(QFrame::Shadow::Sunken);
         playerPrompt = new QTextBrowser(boardwindow);
         playerPrompt->setObjectName("playerPrompt");
         playerPrompt->setGeometry(QRect(370, 40, 301, 61));
@@ -119,6 +121,12 @@ public:
         closeProgram = new QPushButton(boardwindow);
         closeProgram->setObjectName("closeProgram");
         closeProgram->setGeometry(QRect(990, 180, 80, 24));
+        goFirst = new QPushButton(boardwindow);
+        goFirst->setObjectName("goFirst");
+        goFirst->setGeometry(QRect(380, 120, 80, 24));
+        goSecond = new QPushButton(boardwindow);
+        goSecond->setObjectName("goSecond");
+        goSecond->setGeometry(QRect(560, 120, 80, 24));
 
         retranslateUi(boardwindow);
 
@@ -137,6 +145,14 @@ public:
         area7->setText(QString());
         area8->setText(QString());
         area9->setText(QString());
+        playerPrompt->setHtml(QCoreApplication::translate("boardwindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Would you like to go first or second?</p></body></html>", nullptr));
         gameExitButton->setText(QCoreApplication::translate("boardwindow", "Exit to Menu", nullptr));
         gameExitConfirm->setText(QCoreApplication::translate("boardwindow", "Yes", nullptr));
         gameExitDeny->setText(QCoreApplication::translate("boardwindow", "No", nullptr));
@@ -159,6 +175,8 @@ public:
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt;\"><br /></p></body></html>", nullptr));
         menuExit->setText(QCoreApplication::translate("boardwindow", "Exit to Menu", nullptr));
         closeProgram->setText(QCoreApplication::translate("boardwindow", "Close Program", nullptr));
+        goFirst->setText(QCoreApplication::translate("boardwindow", "First", nullptr));
+        goSecond->setText(QCoreApplication::translate("boardwindow", "Second", nullptr));
     } // retranslateUi
 
 };

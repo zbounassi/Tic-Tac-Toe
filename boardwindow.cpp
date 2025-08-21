@@ -13,6 +13,21 @@ boardwindow::boardwindow(QWidget *parent)
     ui->exitPromptMenu->setHidden(true);
     ui->menuExit->setHidden(true);
     ui->closeProgram->setHidden(true);
+
+    ui->area1->setHidden(true);
+    ui->area2->setHidden(true);
+    ui->area3->setHidden(true);
+    ui->area4->setHidden(true);
+    ui->area5->setHidden(true);
+    ui->area6->setHidden(true);
+    ui->area7->setHidden(true);
+    ui->area8->setHidden(true);
+    ui->area9->setHidden(true);
+
+    ui->line1->setHidden(true);
+    ui->line2->setHidden(true);
+    ui->line3->setHidden(true);
+    ui->line4->setHidden(true);
 }
 
 boardwindow::~boardwindow()
@@ -20,6 +35,29 @@ boardwindow::~boardwindow()
     delete ui;
 }
 
+void boardwindow::hideChoices()
+{
+    ui->goFirst->setHidden(true);
+    ui->goSecond->setHidden(true);
+}
+
+void boardwindow::showPlayArea()
+{
+    ui->area1->setHidden(false);
+    ui->area2->setHidden(false);
+    ui->area3->setHidden(false);
+    ui->area4->setHidden(false);
+    ui->area5->setHidden(false);
+    ui->area6->setHidden(false);
+    ui->area7->setHidden(false);
+    ui->area8->setHidden(false);
+    ui->area9->setHidden(false);
+
+    ui->line1->setHidden(false);
+    ui->line2->setHidden(false);
+    ui->line3->setHidden(false);
+    ui->line4->setHidden(false);
+}
 
 void boardwindow::on_area1_clicked()
 {
@@ -84,9 +122,6 @@ void boardwindow::on_gameExitDeny_clicked()
     ui->exitPrompt->setHidden(true);
 }
 
-
-
-
 void boardwindow::on_closeProgram_clicked()
 {
     close();
@@ -97,5 +132,19 @@ void boardwindow::on_menuExit_clicked()
 {
     this->hide();
     emit backToMenu();
+}
+
+
+void boardwindow::on_goFirst_clicked()
+{
+    hideChoices();
+    showPlayArea();
+}
+
+
+void boardwindow::on_goSecond_clicked()
+{
+    hideChoices();
+    showPlayArea();
 }
 
