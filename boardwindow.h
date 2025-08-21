@@ -3,6 +3,17 @@
 
 #include <QWidget>
 
+struct gameState {
+    char board[9] = {};
+    char player;
+    char cpu;
+    char currentPlayer;
+    int turn = 1;
+    bool playerTurn = false;
+    bool cpuTurn = false;
+    bool won = false;
+};
+
 namespace Ui {
 class boardwindow;
 }
@@ -20,6 +31,8 @@ private slots:
     void hideChoices();
 
     void showPlayArea();
+
+    void changeTurns();
 
     void playCPUEasy(std::string order);
 
@@ -47,7 +60,6 @@ private slots:
 
     void on_goSecond_clicked();
 
-
     void on_replayConfirm_clicked();
 
 signals:
@@ -55,6 +67,7 @@ signals:
 
 private:
     Ui::boardwindow *ui;
+    gameState game;
 };
 
 #endif // BOARDWINDOW_H

@@ -16,7 +16,8 @@ SOURCES += \
 
 HEADERS += \
     boardwindow.h \
-    mainwindow.h
+    mainwindow.h \
+    tictactoeFuncs.h
 
 FORMS += \
     boardwindow.ui \

@@ -27,7 +27,7 @@ void resetCounters() {
     mpP2Wins = 0;
     draws = 0;
     gamesPlayed = 0;
-};
+}
 
 // Determining if its the player's or the CPU's turn
 bool isPlayerTurn(int turn, char player) {
@@ -35,7 +35,7 @@ bool isPlayerTurn(int turn, char player) {
         return true;
     else
         return false;
-};
+}
 
 // Used to inform players of the spaces in a simplified manner
 void printNumberedBoard() {
@@ -45,7 +45,7 @@ void printNumberedBoard() {
     cout << setw(18) << "   4\t|   5\t|   6" << endl;
     cout << setw(24) << " ----------------------" << endl;
     cout << setw(18) << "   7\t|   8\t|   9";
-};
+}
 
 // Prints the board while players are in the game
 void printPlayingBoard(array<array<char,ROWS>,COLS>&board){
@@ -55,12 +55,12 @@ void printPlayingBoard(array<array<char,ROWS>,COLS>&board){
     printf("     %c\t|   %c\t|   %c\n", board[1][0], board[1][1], board[1][2]);
     cout << setw(24) << " ----------------------" << endl;
     printf("     %c\t|   %c\t|   %c\n", board[2][0], board[2][1], board[2][2]);
-};
+}
 
 // Used to reset the board, so that each game starts off with a blank playable board
 void clearBoard(array<array<char, ROWS>, COLS>&board){
     board = { {} };
-};
+}
 
 // Checks to see the player has gotten Tic-Tac-Toe against the CPU
 bool checkPlayerWinSolo(array<array<char,ROWS>,COLS>&board, char player) {
@@ -93,7 +93,7 @@ bool checkPlayerWinSolo(array<array<char,ROWS>,COLS>&board, char player) {
 
     //false if none are true
     return false;
-};
+}
 
 
 // Checks to see if any player has gotten Tic-Tac-Toe and will announce the winner, if there is one
@@ -139,7 +139,7 @@ bool checkPlayerWinMP(array<array<char, ROWS>, COLS>& board, char player) {
 
     //false if none are true
     return false;
-};
+}
 
 
 // CPU checks to see any spaces where the opponent can fulfill Tic-Tac-Toe
@@ -157,7 +157,7 @@ bool cpuCheckWin(array<array<char, ROWS>, COLS>&board, char player) {
 
     //false if none are true
     return false;
-};
+}
 
 // Checking to see if the CPU has won the game
 bool cpuWinCheck (array<array<char, ROWS>, COLS>& board, char player) {
@@ -186,7 +186,7 @@ bool cpuWinCheck (array<array<char, ROWS>, COLS>& board, char player) {
 
     //false if none are true
     return false;
-};
+}
 
 // CPU checks if the corners are open to be played in
 int cornerOpen(array<array<char, ROWS>, COLS>&board) {
@@ -200,7 +200,7 @@ int cornerOpen(array<array<char, ROWS>, COLS>&board) {
     else if (board[2][2] != 'X' && board[2][2] != 'O')
         val = 9;
     return(val);
-};
+}
 
 // CPU checks if there is a space available next to its prior move to be made
 bool spaceOverOpen(array<array<char, ROWS>, COLS>&board) {
@@ -226,7 +226,7 @@ bool spaceOverOpen(array<array<char, ROWS>, COLS>&board) {
         }
     }
     return(found);
-};
+}
 
 // CPU checks if there is a move that wins the game
 int findWinningMove(array<array<char, ROWS>, COLS>&board, char cpu) {
@@ -246,7 +246,7 @@ int findWinningMove(array<array<char, ROWS>, COLS>&board, char cpu) {
         }
     }
     return(position);
-};
+}
 
 // CPU checks if the opponent has a move that wins the game
 int findBlockingMove(array<array<char, ROWS>, COLS>&board, char player){
@@ -266,19 +266,19 @@ int findBlockingMove(array<array<char, ROWS>, COLS>&board, char player){
         }
     }
     return(position);
-};
+}
 
 // CPU takes the center if it sees no better move
 int takeCenter(array<array<char, ROWS>, COLS>&board) {
     if (board[1][1] != 'X' && board[1][1] != 'O')
         return 5;
     return -1;
-};
+}
 
 // Randomly generated move, the easiest difficulty level
 int cpuMoveEasy() {
     return(rand() % 9 + 1);
-};
+}
 
 // Move may be randomly generated or worked to win/block a win, the medium level of difficulty
 int cpuMoveMedium(array<array<char, ROWS>, COLS>&board, char cpu, char player) {
@@ -311,7 +311,7 @@ int cpuMoveMedium(array<array<char, ROWS>, COLS>&board, char cpu, char player) {
         position = cpuMoveEasy();
 
     return(position);
-};
+}
 
 // Move is given a list to "think" through, the hardest level of difficulty
 int cpuMoveHard(array<array<char, ROWS>, COLS>&board, char cpu, char player, int turn) {
@@ -364,7 +364,7 @@ int cpuMoveHard(array<array<char, ROWS>, COLS>&board, char cpu, char player, int
     int position = cpuMoveEasy();
 
     return(position);
-};
+}
 
 // Calls all functions to be capable of playing Tic-Tac-Toe with someone else
 void playTicTacToe(array<array<char, ROWS>, COLS>&board) {
@@ -519,7 +519,7 @@ void playTicTacToeCPUEasy(array<array<char, ROWS>, COLS>&board) {
     }
     else
         resetCounters();
-};
+}
 
 // Play vs CPU on the Medium difficulty
 void playTicTacToeCPUMedium(array<array<char, ROWS>, COLS>&board) {
@@ -613,10 +613,11 @@ void playTicTacToeCPUMedium(array<array<char, ROWS>, COLS>&board) {
     }
     else
         resetCounters();
-};
+}
 
 // Play vs CPU on the Hard difficulty
-void playTicTacToeCPUHard(array<array<char, ROWS>, COLS>&board) {
+void playTicTacToeCPUHard(array<array<char, ROWS>, COLS>&board)
+{
 
     bool won = false, playerTurn = false, cpuShow = false;
     char player, cpu;
@@ -708,9 +709,9 @@ void playTicTacToeCPUHard(array<array<char, ROWS>, COLS>&board) {
     }
     else
         resetCounters();
-};
+}
 
-
+/*
 int main()
 {
     int gameSelect;
@@ -770,3 +771,4 @@ int main()
 
     return(0);
 };
+*/

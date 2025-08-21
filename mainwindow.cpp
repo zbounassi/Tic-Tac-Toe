@@ -28,6 +28,7 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::showBoard(){
+
     if(!boardWindow){
         boardWindow = new boardwindow();
 
@@ -119,9 +120,6 @@ void MainWindow::on_twoPlayerButton_clicked()
 void MainWindow::on_playEasyCPUButton_clicked()
 {   
     showBoard();
-
-
-
 }
 
 
