@@ -24,10 +24,18 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
-<<<<<<< HEAD
     if(boardWindow) delete boardWindow;
-=======
->>>>>>> 838665d9016d793fa8e5a8c919e1e5de8db431cf
+}
+
+void MainWindow::showBoard(){
+    if(!boardWindow){
+        boardWindow = new boardwindow();
+
+        connect(boardWindow, &boardwindow::backToMenu, this, &MainWindow::show);
+    }
+
+    this->hide();
+    boardWindow->show();
 }
 
 void MainWindow::on_playButton_clicked()
@@ -109,21 +117,11 @@ void MainWindow::on_twoPlayerButton_clicked()
 
 
 void MainWindow::on_playEasyCPUButton_clicked()
-{
-<<<<<<< HEAD
-    if(!boardWindow){
-        boardWindow = new boardwindow();
+{   
+    showBoard();
 
-        connect(boardWindow, &boardwindow::backToMenu, this, &MainWindow::show);
-    }
 
-    this->hide();
-    boardWindow->show();
 
-    //playTicTacToeCPUEasy(board);
-=======
-    playTicTacToeCPUEasy(board);
->>>>>>> 838665d9016d793fa8e5a8c919e1e5de8db431cf
 }
 
 

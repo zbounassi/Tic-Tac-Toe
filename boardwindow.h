@@ -16,6 +16,13 @@ public:
     ~boardwindow();
 
 private slots:
+
+    void hideChoices();
+
+    void showPlayArea();
+
+    void playCPUEasy(std::string order);
+
     void on_area1_clicked();
     void on_area2_clicked();
     void on_area3_clicked();
@@ -35,6 +42,13 @@ private slots:
     void on_closeProgram_clicked();
 
     void on_menuExit_clicked();
+
+    void on_goFirst_clicked();
+
+    void on_goSecond_clicked();
+
+
+    void on_replayConfirm_clicked();
 
 signals:
     void backToMenu();
