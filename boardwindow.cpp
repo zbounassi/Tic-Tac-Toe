@@ -1,5 +1,7 @@
 #include "boardwindow.h"
 #include "ui_boardwindow.h"
+#include "mainwindow.cpp"
+using namespace std;
 
 boardwindow::boardwindow(QWidget *parent)
     : QWidget(parent)
@@ -28,6 +30,10 @@ boardwindow::boardwindow(QWidget *parent)
     ui->line2->setHidden(true);
     ui->line3->setHidden(true);
     ui->line4->setHidden(true);
+
+    ui->playAgainPrompt->setHidden(true);
+    ui->replayConfirm->setHidden(true);
+    ui->replayDeny->setHidden(true);
 }
 
 boardwindow::~boardwindow()
@@ -58,6 +64,60 @@ void boardwindow::showPlayArea()
     ui->line3->setHidden(false);
     ui->line4->setHidden(false);
 }
+
+int turn = 1;
+char player, cpu;
+string order;
+
+void boardwindow::playCPUEasy(string order){
+
+    bool won = false, playerTurn = false;
+    string playAgain;
+
+    if(order == "first"){
+        player = 'X';
+        cpu = 'O';
+    }
+    else{
+        cpu = 'X';
+        player = 'O';
+    }
+
+    while(!won && turn <= 9){
+        if((player == 'X' && turn % 2 != 0) || (player == 'O' && turn % 2 == 0))
+            playerTurn = true;
+
+        if(playerTurn){
+            ui->playerPrompt->setText("Player please make your move");
+
+            // Wait for an area to be clicked
+            // once area is clicked it should increment the turn and move onto the cpu's turn
+
+
+        }
+        else{
+            ui->playerPrompt->setText("CPU is calculating its move");
+
+            // CPU selects the square to be played in and needs to act as though it clicked the space
+
+        }
+
+
+        turn++;
+
+    }
+
+    if(won == false)
+        ui->playerPrompt->setText("The game has ended in a draw!");
+
+
+    ui->playAgainPrompt->setHidden(false);
+    ui->replayConfirm->setHidden(false);
+    ui->replayDeny->setHidden(false);
+
+
+};
+
 
 void boardwindow::on_area1_clicked()
 {
@@ -139,6 +199,8 @@ void boardwindow::on_goFirst_clicked()
 {
     hideChoices();
     showPlayArea();
+    order = "first";
+    playCPUEasy(order);
 }
 
 
@@ -146,5 +208,14 @@ void boardwindow::on_goSecond_clicked()
 {
     hideChoices();
     showPlayArea();
+    order = "second";
+    playCPUEasy(order);
+}
+
+
+
+void boardwindow::on_replayConfirm_clicked()
+{
+
 }
 

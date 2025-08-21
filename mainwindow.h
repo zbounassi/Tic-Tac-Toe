@@ -18,6 +18,14 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void on_twoPlayerButton_clicked();
+
+    void on_playEasyCPUButton_clicked();
+
+    void on_playMediumCPUButton_clicked();
+
+    void on_playHardCPUButton_clicked();
+
 private slots:
     void showBoard();
 
@@ -27,19 +35,12 @@ private slots:
 
     void on_exitButton_clicked();
 
-    void on_twoPlayerButton_clicked();
-
     void on_backButtonMenu_clicked();
 
     void on_vsCPUButton_clicked();
 
     void on_backButtonCPUselect_clicked();
 
-    void on_playEasyCPUButton_clicked();
-
-    void on_playMediumCPUButton_clicked();
-
-    void on_playHardCPUButton_clicked();
 
 private:
     Ui::MainWindow *ui;
