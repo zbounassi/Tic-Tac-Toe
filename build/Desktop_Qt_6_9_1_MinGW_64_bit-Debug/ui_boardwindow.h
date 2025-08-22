@@ -142,13 +142,13 @@ public:
         goSecond->setGeometry(QRect(560, 120, 80, 24));
         playAgainPrompt = new QTextBrowser(boardwindow);
         playAgainPrompt->setObjectName("playAgainPrompt");
-        playAgainPrompt->setGeometry(QRect(750, 80, 341, 61));
+        playAgainPrompt->setGeometry(QRect(750, 230, 341, 61));
         replayConfirm = new QPushButton(boardwindow);
         replayConfirm->setObjectName("replayConfirm");
-        replayConfirm->setGeometry(QRect(840, 180, 80, 24));
+        replayConfirm->setGeometry(QRect(840, 310, 80, 24));
         replayDeny = new QPushButton(boardwindow);
         replayDeny->setObjectName("replayDeny");
-        replayDeny->setGeometry(QRect(990, 180, 80, 24));
+        replayDeny->setGeometry(QRect(990, 310, 80, 24));
         area1Text = new QTextEdit(boardwindow);
         area1Text->setObjectName("area1Text");
         area1Text->setGeometry(QRect(360, 190, 91, 71));

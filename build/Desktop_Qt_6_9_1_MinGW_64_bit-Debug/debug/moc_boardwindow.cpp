@@ -63,7 +63,8 @@ template <> constexpr inline auto boardwindow::qt_create_metaobjectdata<qt_meta_
         "on_menuExit_clicked",
         "on_goFirst_clicked",
         "on_goSecond_clicked",
-        "on_replayConfirm_clicked"
+        "on_replayConfirm_clicked",
+        "setArea"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -113,6 +114,10 @@ template <> constexpr inline auto boardwindow::qt_create_metaobjectdata<qt_meta_
         QtMocHelpers::SlotData<void()>(24, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'on_replayConfirm_clicked'
         QtMocHelpers::SlotData<void()>(25, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'setArea'
+        QtMocHelpers::SlotData<void(char, int)>(26, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::Char, 2 }, { QMetaType::Int, 2 },
+        }}),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -158,6 +163,7 @@ void boardwindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 19: _t->on_goFirst_clicked(); break;
         case 20: _t->on_goSecond_clicked(); break;
         case 21: _t->on_replayConfirm_clicked(); break;
+        case 22: _t->setArea((*reinterpret_cast< std::add_pointer_t<char>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<int>>(_a[2]))); break;
         default: ;
         }
     }
@@ -186,14 +192,14 @@ int boardwindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 22)
+        if (_id < 23)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 22;
+        _id -= 23;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 22)
+        if (_id < 23)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 22;
+        _id -= 23;
     }
     return _id;
 }
