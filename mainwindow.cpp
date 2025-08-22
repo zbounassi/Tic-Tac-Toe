@@ -35,8 +35,8 @@ void MainWindow::showBoard(){
         connect(boardWindow, &boardwindow::backToMenu, this, &MainWindow::show);
     }
 
-    this->hide();
     boardWindow->show();
+    this->hide();
 }
 
 void MainWindow::on_playButton_clicked()

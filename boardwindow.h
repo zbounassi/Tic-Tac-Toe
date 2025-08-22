@@ -2,6 +2,7 @@
 #define BOARDWINDOW_H
 
 #include <QWidget>
+#include <array>
 
 struct gameState {
     char board[9] = {};
@@ -62,11 +63,14 @@ private slots:
 
     void on_replayConfirm_clicked();
 
+    void setArea(char, int);
+
 signals:
     void backToMenu();
 
 private:
     Ui::boardwindow *ui;
+    std::array<std::array<char, 3>, 3> board = {{}};
     gameState game;
 };
 

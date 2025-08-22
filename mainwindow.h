@@ -18,6 +18,9 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void showBoard();
+
     void on_twoPlayerButton_clicked();
 
     void on_playEasyCPUButton_clicked();
@@ -25,9 +28,6 @@ public:
     void on_playMediumCPUButton_clicked();
 
     void on_playHardCPUButton_clicked();
-
-private slots:
-    void showBoard();
 
     void on_playButton_clicked();
 
