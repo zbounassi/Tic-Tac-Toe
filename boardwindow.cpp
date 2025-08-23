@@ -55,12 +55,14 @@ boardwindow::~boardwindow()
     delete ui;
 }
 
+// Function used to hide extraneous buttons once the player determines the playing order
 void boardwindow::hideChoices()
 {
     ui->goFirst->setHidden(true);
     ui->goSecond->setHidden(true);
 }
 
+// Function used to prompt the player if they would like to go first or second
 void boardwindow::showChoices()
 {
     ui->playerPrompt->setText("Would you like to go first or second?");
@@ -68,17 +70,41 @@ void boardwindow::showChoices()
     ui->goSecond->setHidden(false);
 }
 
+// Function call to clear the playing UI and reset related game rules
 void boardwindow::clearBoardUI()
 {
-    showPlayArea();
+    hidePlayArea();
 
     for(int i = 0; i < 3; i++)
         for(int j = 0; j < 3; j++)
             board[i][j] = ' ';
 
+    game.turn = 1;
+    game.won = false;
+
     resetBoxes();
 }
 
+// Function used to hide the playing board
+void boardwindow::hidePlayArea()
+{
+    ui->area1->setHidden(true);
+    ui->area2->setHidden(true);
+    ui->area3->setHidden(true);
+    ui->area4->setHidden(true);
+    ui->area5->setHidden(true);
+    ui->area6->setHidden(true);
+    ui->area7->setHidden(true);
+    ui->area8->setHidden(true);
+    ui->area9->setHidden(true);
+
+    ui->line1->setHidden(true);
+    ui->line2->setHidden(true);
+    ui->line3->setHidden(true);
+    ui->line4->setHidden(true);
+}
+
+// Function used to show the board
 void boardwindow::showPlayArea()
 {
     ui->area1->setHidden(false);
@@ -97,6 +123,7 @@ void boardwindow::showPlayArea()
     ui->line4->setHidden(false);
 }
 
+// Function used to reset all of the play areas to the empty string
 void boardwindow::resetBoxes()
 {
     ui->area1->setText("");
@@ -110,6 +137,9 @@ void boardwindow::resetBoxes()
     ui->area9->setText("");
 }
 
+// Function call to announce that the game is over
+// Message will change based on the outcome being a draw or win
+// Will be adjusted to prompt the user if they would like to play again
 void boardwindow::endGame(){
     ui->playAgainPrompt->setHidden(false);
     ui->replayConfirm->setHidden(false);
@@ -121,6 +151,7 @@ void boardwindow::endGame(){
     ui->playerPrompt->setText(currentText + "\nThe game is now over!");
 }
 
+// Function call to receive the current player and return that string so it can be displayed
 std::string boardwindow::getPlayer(){
     if(game.playerTurn)
         return "Player";
@@ -128,6 +159,8 @@ std::string boardwindow::getPlayer(){
         return "CPU";
 }
 
+// Function that will check if the move made wins the game
+// If the game is won, a message will display showing the winner
 bool boardwindow::checkWinner(){
 
     char player = game.currentPlayer;
@@ -152,6 +185,7 @@ bool boardwindow::checkWinner(){
     return false;
 }
 
+// Function called to perform the player's turn
 void boardwindow::playerTurn(){
     if(game.won || game.turn > 9){
         endGame();
@@ -165,9 +199,12 @@ void boardwindow::playerTurn(){
     game.currentPlayer = game.player;
 
     QApplication::processEvents();
+
     ui->playerPrompt->setText("Player please make your move:");
 }
 
+// Function called to perform the CPU's turn
+// Move difficulty will be decided by the player's chosen input
 void boardwindow::cpuTurn(){
 
     if(game.won || game.turn > 9){
@@ -188,12 +225,15 @@ void boardwindow::cpuTurn(){
         position = cpuMoveEasy();
     } while (!legalMoveCheck(position));
 
-    game.turn++;
     setArea(position);
 
-    checkWinner();
+    if(game.turn >= 5)
+        checkWinner();
+
+    game.turn++;
 }
 
+// Area 1 (Top Left) of the board will be set to the player's character
 void boardwindow::on_area1_clicked()
 {
     if(game.player == 'X')
@@ -218,6 +258,7 @@ void boardwindow::on_area1_clicked()
     }
 }
 
+// Area 2 (Top Middle) of the board will be set to the player's character
 void boardwindow::on_area2_clicked()
 {
     if(game.player == 'X')
@@ -242,6 +283,7 @@ void boardwindow::on_area2_clicked()
     }
 }
 
+// Area 3 (Top Right) of the board will be set to the player's character
 void boardwindow::on_area3_clicked()
 {
     if(game.player == 'X')
@@ -266,6 +308,7 @@ void boardwindow::on_area3_clicked()
     }
 }
 
+// Area 4 (Middle Left) of the board will be set to the player's character
 void boardwindow::on_area4_clicked()
 {
     if(game.player == 'X')
@@ -290,6 +333,7 @@ void boardwindow::on_area4_clicked()
     }
 }
 
+// Area 5 (Middle Middle) of the board will be set to the player's character
 void boardwindow::on_area5_clicked()
 {
     if(game.player == 'X')
@@ -314,6 +358,7 @@ void boardwindow::on_area5_clicked()
     }
 }
 
+// Area 6 (Middle Right) of the board will be set to the player's character
 void boardwindow::on_area6_clicked()
 {
     if(game.player == 'X')
@@ -338,6 +383,7 @@ void boardwindow::on_area6_clicked()
     }
 }
 
+// Area 7 (Bottom Left) of the board will be set to the player's character
 void boardwindow::on_area7_clicked()
 {
     if(game.player == 'X')
@@ -362,6 +408,7 @@ void boardwindow::on_area7_clicked()
     }
 }
 
+// Area 8 (Bottom Middle) of the board will be set to the player's character
 void boardwindow::on_area8_clicked()
 {
     if(game.player == 'X')
@@ -386,6 +433,7 @@ void boardwindow::on_area8_clicked()
     }
 }
 
+// Area 9 (Bottom Right) of the board will be set to the player's character
 void boardwindow::on_area9_clicked()
 {
     if(game.player == 'X')
@@ -410,7 +458,7 @@ void boardwindow::on_area9_clicked()
     }
 }
 
-
+// Button that will allow the user to proceed with or cancel exiting the game
 void boardwindow::on_gameExitButton_clicked()
 {
     ui->gameExitConfirm->setHidden(false);
@@ -418,7 +466,8 @@ void boardwindow::on_gameExitButton_clicked()
     ui->exitPrompt->setHidden(false);
 }
 
-
+// Button that confirms the user wants to exit the game
+// They are then prompted if they want to close the program or enter the main menu
 void boardwindow::on_gameExitConfirm_clicked()
 {
     ui->exitPromptMenu->setHidden(false);
@@ -426,7 +475,7 @@ void boardwindow::on_gameExitConfirm_clicked()
     ui->closeProgram->setHidden(false);
 }
 
-
+// Button that when clicked will deny the action of exiting the game
 void boardwindow::on_gameExitDeny_clicked()
 {
     ui->gameExitConfirm->setHidden(true);
@@ -434,17 +483,20 @@ void boardwindow::on_gameExitDeny_clicked()
     ui->exitPrompt->setHidden(true);
 }
 
+// Button that when pressed is used to close the program
 void boardwindow::on_closeProgram_clicked()
 {
     close();
 }
 
+// Button that when pressed is used to exit to the main menu
 void boardwindow::on_menuExit_clicked()
 {
     this->hide();
     emit backToMenu();
 }
 
+// Starting a game where the Player moves first
 void boardwindow::on_goFirst_clicked()
 {
     hideChoices();
@@ -456,6 +508,7 @@ void boardwindow::on_goFirst_clicked()
     playerTurn();
 }
 
+// Starting a game where the CPU moves first
 void boardwindow::on_goSecond_clicked()
 {
     hideChoices();
@@ -472,6 +525,7 @@ void boardwindow::on_replayConfirm_clicked()
 
 }
 
+// Function used to enable the CPU to pick a square and move the turn to the player
 void boardwindow::setArea(int pos){
     switch(pos){
     case 1:
@@ -613,6 +667,7 @@ void boardwindow::setArea(int pos){
     }
 }
 
+// Boolean used for the CPU to check whether or not a move is legal
 bool boardwindow::legalMoveCheck(int pos){
     switch(pos){
     case 1: return (board[0][0] == ' ');

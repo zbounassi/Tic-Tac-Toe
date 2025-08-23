@@ -5,7 +5,6 @@
 #include <array>
 
 struct gameState {
-    char board[9] = {};
     char player;
     char cpu;
     char currentPlayer;
@@ -28,6 +27,7 @@ public:
     ~boardwindow();
     void clearBoardUI();
     void showChoices();
+    void hidePlayArea();
 
 private slots:
 
