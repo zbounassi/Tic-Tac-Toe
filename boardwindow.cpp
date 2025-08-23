@@ -40,16 +40,6 @@ boardwindow::boardwindow(QWidget *parent)
     ui->area8->setHidden(true);
     ui->area9->setHidden(true);
 
-    ui->area1Text->setHidden(true);
-    ui->area2Text->setHidden(true);
-    ui->area3Text->setHidden(true);
-    ui->area4Text->setHidden(true);
-    ui->area5Text->setHidden(true);
-    ui->area6Text->setHidden(true);
-    ui->area7Text->setHidden(true);
-    ui->area8Text->setHidden(true);
-    ui->area9Text->setHidden(true);
-
     ui->line1->setHidden(true);
     ui->line2->setHidden(true);
     ui->line3->setHidden(true);
@@ -71,6 +61,24 @@ void boardwindow::hideChoices()
     ui->goSecond->setHidden(true);
 }
 
+void boardwindow::showChoices()
+{
+    ui->playerPrompt->setText("Would you like to go first or second?");
+    ui->goFirst->setHidden(false);
+    ui->goSecond->setHidden(false);
+}
+
+void boardwindow::clearBoardUI()
+{
+    showPlayArea();
+
+    for(int i = 0; i < 3; i++)
+        for(int j = 0; j < 3; j++)
+            board[i][j] = ' ';
+
+    resetBoxes();
+}
+
 void boardwindow::showPlayArea()
 {
     ui->area1->setHidden(false);
@@ -89,201 +97,317 @@ void boardwindow::showPlayArea()
     ui->line4->setHidden(false);
 }
 
+void boardwindow::resetBoxes()
+{
+    ui->area1->setText("");
+    ui->area2->setText("");
+    ui->area3->setText("");
+    ui->area4->setText("");
+    ui->area5->setText("");
+    ui->area6->setText("");
+    ui->area7->setText("");
+    ui->area8->setText("");
+    ui->area9->setText("");
+}
 
-
-void boardwindow::changeTurns(){
-    if(game.currentPlayer == game.player){
-        game.currentPlayer = game.cpu;
-        game.playerTurn = false;
-        game.cpuTurn = true;
-    }
-    else{
-        game.currentPlayer = game.player;
-        game.playerTurn = true;
-        game.cpuTurn = false;
-    }
-    game.turn++;
-};
-
-void boardwindow::playCPUEasy(string order){
-
-    int position;
-    string playAgain;
-
-    if(order == "first"){
-        game.player = 'X';
-        game.cpu = 'O';
-        game.playerTurn = true;
-    }
-    else{
-        game.cpu = 'X';
-        game.player = 'O';
-        game.cpuTurn = true;
-    }
-
-    if(!game.won && game.turn <= 9){
-
-        if(game.playerTurn){
-            ui->playerPrompt->setText("Player please make your move");
-            game.currentPlayer = game.player;
-
-            // Wait for an area to be clicked
-            // once area is clicked it should increment the turn and move onto the cpu's turn
-
-        }
-        else{
-            ui->playerPrompt->setText("CPU is calculating its move");
-            game.currentPlayer = game.cpu;
-
-            // CPU selects the square to be played in and needs to act as though it clicked the space
-            position = cpuMoveEasy();
-            if(!cpuMoveMade){
-                setArea(game.currentPlayer, position);
-            }
-        }
-    }
-
-    ui->playerPrompt->setText("The game has ended in a draw!");
-
+void boardwindow::endGame(){
     ui->playAgainPrompt->setHidden(false);
     ui->replayConfirm->setHidden(false);
     ui->replayDeny->setHidden(false);
-};
 
+    if(game.won == false)
+        ui->playerPrompt->setText("It's a draw!");
+    QString currentText = ui->playerPrompt->text();
+    ui->playerPrompt->setText(currentText + "\nThe game is now over!");
+}
+
+std::string boardwindow::getPlayer(){
+    if(game.playerTurn)
+        return "Player";
+    else
+        return "CPU";
+}
+
+bool boardwindow::checkWinner(){
+
+    char player = game.currentPlayer;
+    bool won = false;
+
+    //check rows and cols
+    for (int i = 0; i < 3; i++) {
+        if (board[i][0] == player && board[i][1] == player && board[i][2] == player) won = true;
+        if (board[0][i] == player && board[1][i] == player && board[2][i] == player) won = true;
+    }
+
+    //check diagonals
+    if (board[0][0] == player && board[1][1] == player && board[2][2] == player) won = true;
+    if (board[2][0] == player && board[1][1] == player && board[0][2] == player) won = true;
+
+    if(won){
+        game.won = true;
+        string winner = getPlayer();
+        ui->playerPrompt->setText(QString("The %1 has won the game!").arg(winner));
+    }
+    //false if none are true
+    return false;
+}
+
+void boardwindow::playerTurn(){
+    if(game.won || game.turn > 9){
+        endGame();
+        return;
+    }
+
+    game.playerTurn = true;
+    game.cpuTurn = false;
+    cpuMoveMade = false;
+
+    game.currentPlayer = game.player;
+
+    QApplication::processEvents();
+    ui->playerPrompt->setText("Player please make your move:");
+}
+
+void boardwindow::cpuTurn(){
+
+    if(game.won || game.turn > 9){
+        endGame();
+        return;
+    }
+
+    game.playerTurn = false;
+    game.cpuTurn = true;
+
+    game.currentPlayer = game.cpu;
+    ui->playerPrompt->setText("CPU is calculating its move");
+    QApplication::processEvents();
+
+    int position;
+
+    do{
+        position = cpuMoveEasy();
+    } while (!legalMoveCheck(position));
+
+    game.turn++;
+    setArea(position);
+
+    checkWinner();
+}
 
 void boardwindow::on_area1_clicked()
 {
-    if(game.currentPlayer == 'X')
-        ui->area1Text->setText("X");
+    if(game.player == 'X')
+        ui->area1->setText("X");
     else
-        ui->area1Text->setText("O");
+        ui->area1->setText("O");
 
-    board[0][0] = game.currentPlayer;
+    board[0][0] = game.player;
     area1Played = true;
-    changeTurns();
 
-    ui->area1Text->setHidden(false);
-    ui->area1->setHidden(true);
+    if(game.turn > 4){
+        if(!checkWinner()){
+            game.turn++;
+            cpuTurn();
+        }
+        else
+            endGame();
+    }
+    else{
+        game.turn++;
+        cpuTurn();
+    }
 }
 
 void boardwindow::on_area2_clicked()
 {
-    if(game.currentPlayer == 'X')
-        ui->area2Text->setText("X");
+    if(game.player == 'X')
+        ui->area2->setText("X");
     else
-        ui->area2Text->setText("O");
+        ui->area2->setText("O");
 
-    board[0][1] = game.currentPlayer;
+    board[0][1] = game.player;
     area2Played = true;
-    changeTurns();
 
-    ui->area2Text->setHidden(false);
-    ui->area2->setHidden(true);
+    if(game.turn > 4){
+        if(!checkWinner()){
+            game.turn++;
+            cpuTurn();
+        }
+        else
+            endGame();
+    }
+    else{
+        game.turn++;
+        cpuTurn();
+    }
 }
 
 void boardwindow::on_area3_clicked()
 {
-    if(game.currentPlayer == 'X')
-        ui->area3Text->setText("X");
+    if(game.player == 'X')
+        ui->area3->setText("X");
     else
-        ui->area3Text->setText("O");
+        ui->area3->setText("O");
 
-    board[0][2] = game.currentPlayer;
+    board[0][2] = game.player;
     area3Played = true;
-    changeTurns();
 
-    ui->area3Text->setHidden(false);
-    ui->area3->setHidden(true);
+    if(game.turn > 4){
+        if(!checkWinner()){
+            game.turn++;
+            cpuTurn();
+        }
+        else
+            endGame();
+    }
+    else{
+        game.turn++;
+        cpuTurn();
+    }
 }
 
 void boardwindow::on_area4_clicked()
 {
-    if(game.currentPlayer == 'X')
-        ui->area4Text->setText("X");
+    if(game.player == 'X')
+        ui->area4->setText("X");
     else
-        ui->area4Text->setText("O");
+        ui->area4->setText("O");
 
-    board[1][0] = game.currentPlayer;
+    board[1][0] = game.player;
     area4Played = true;
-    changeTurns();
 
-    ui->area4Text->setHidden(false);
-    ui->area4->setHidden(true);
+    if(game.turn > 4){
+        if(!checkWinner()){
+            game.turn++;
+            cpuTurn();
+        }
+        else
+            endGame();
+    }
+    else{
+        game.turn++;
+        cpuTurn();
+    }
 }
 
 void boardwindow::on_area5_clicked()
 {
-    if(game.currentPlayer == 'X')
-        ui->area5Text->setText("X");
+    if(game.player == 'X')
+        ui->area5->setText("X");
     else
-        ui->area5Text->setText("O");
+        ui->area5->setText("O");
 
-    board[1][1] = game.currentPlayer;
+    board[1][1] = game.player;
     area5Played = true;
-    changeTurns();
 
-    ui->area5Text->setHidden(false);
-    ui->area5->setHidden(true);
+    if(game.turn > 4){
+        if(!checkWinner()){
+            game.turn++;
+            cpuTurn();
+        }
+        else
+            endGame();
+    }
+    else{
+        game.turn++;
+        cpuTurn();
+    }
 }
 
 void boardwindow::on_area6_clicked()
 {
-    if(game.currentPlayer == 'X')
-        ui->area6Text->setText("X");
+    if(game.player == 'X')
+        ui->area6->setText("X");
     else
-        ui->area6Text->setText("O");
+        ui->area6->setText("O");
 
-    board[1][2] = game.currentPlayer;
+    board[1][2] = game.player;
     area6Played = true;
-    changeTurns();
 
-    ui->area6Text->setHidden(false);
-    ui->area6->setHidden(true);
+    if(game.turn > 4){
+        if(!checkWinner()){
+            game.turn++;
+            cpuTurn();
+        }
+        else
+            endGame();
+    }
+    else{
+        game.turn++;
+        cpuTurn();
+    }
 }
 
 void boardwindow::on_area7_clicked()
 {
-    if(game.currentPlayer == 'X')
-        ui->area7Text->setText("X");
+    if(game.player == 'X')
+        ui->area7->setText("X");
     else
-        ui->area7Text->setText("O");
+        ui->area7->setText("O");
 
-    board[2][0] = game.currentPlayer;
+    board[2][0] = game.player;
     area7Played = true;
-    changeTurns();
 
-    ui->area7Text->setHidden(false);
-    ui->area7->setHidden(true);
+    if(game.turn > 4){
+        if(!checkWinner()){
+            game.turn++;
+            cpuTurn();
+        }
+        else
+            endGame();
+    }
+    else{
+        game.turn++;
+        cpuTurn();
+    }
 }
 
 void boardwindow::on_area8_clicked()
 {
-    if(game.currentPlayer == 'X')
-        ui->area8Text->setText("X");
+    if(game.player == 'X')
+        ui->area8->setText("X");
     else
-        ui->area8Text->setText("O");
+        ui->area8->setText("O");
 
-    board[2][1] = game.currentPlayer;
+    board[2][1] = game.player;
     area8Played = true;
-    changeTurns();
 
-    ui->area8Text->setHidden(false);
-    ui->area8->setHidden(true);
+    if(game.turn > 4){
+        if(!checkWinner()){
+            game.turn++;
+            cpuTurn();
+        }
+        else
+            endGame();
+    }
+    else{
+        game.turn++;
+        cpuTurn();
+    }
 }
 
 void boardwindow::on_area9_clicked()
 {
-    if(game.currentPlayer == 'X')
-        ui->area9Text->setText("X");
+    if(game.player == 'X')
+        ui->area9->setText("X");
     else
-        ui->area9Text->setText("O");
+        ui->area9->setText("O");
 
-    board[2][2] = game.currentPlayer;
+    board[2][2] = game.player;
     area9Played = true;
-    changeTurns();
 
-    ui->area9Text->setHidden(false);
-    ui->area9->setHidden(true);
+    if(game.turn > 4){
+        if(!checkWinner()){
+            game.turn++;
+            cpuTurn();
+        }
+        else
+            endGame();
+    }
+    else{
+        game.turn++;
+        cpuTurn();
+    }
 }
 
 
@@ -325,16 +449,22 @@ void boardwindow::on_goFirst_clicked()
 {
     hideChoices();
     showPlayArea();
-    order = "first";
-    playCPUEasy(order);
+
+    game.player = 'X';
+    game.cpu = 'O';
+
+    playerTurn();
 }
 
 void boardwindow::on_goSecond_clicked()
 {
     hideChoices();
     showPlayArea();
-    order = "second";
-    playCPUEasy(order);
+
+    game.player = 'O';
+    game.cpu = 'X';
+
+    cpuTurn();
 }
 
 void boardwindow::on_replayConfirm_clicked()
@@ -342,153 +472,158 @@ void boardwindow::on_replayConfirm_clicked()
 
 }
 
-void boardwindow::setArea(char crt, int pos){
+void boardwindow::setArea(int pos){
     switch(pos){
     case 1:
         if(!area1Played){
-            if(game.currentPlayer == 'X')
-                ui->area1Text->setText("X");
+            if(game.cpu == 'X')
+                ui->area1->setText("X");
             else
-                ui->area1Text->setText("O");
+                ui->area1->setText("O");
 
-            board[0][0] = game.currentPlayer;
+
+            board[0][0] = game.cpu;
             area1Played = true;
 
-            ui->area1Text->setHidden(false);
-            ui->area1->setHidden(true);
-
             cpuMoveMade = true;
+
+            playerTurn();
         }
         break;
     case 2:
         if(!area2Played){
-            if(game.currentPlayer == 'X')
-                ui->area2Text->setText("X");
+            if(game.cpu== 'X')
+                ui->area2->setText("X");
             else
-                ui->area2Text->setText("O");
+                ui->area2->setText("O");
 
-            board[0][1] = game.currentPlayer;
+            board[0][1] = game.cpu;
             area2Played = true;
 
-            ui->area2Text->setHidden(false);
-            ui->area2->setHidden(true);
-
             cpuMoveMade = true;
+
+            playerTurn();
         }
         break;
     case 3:
         if(!area3Played){
-            if(game.currentPlayer == 'X')
-                ui->area3Text->setText("X");
+            if(game.cpu == 'X')
+                ui->area3->setText("X");
             else
-                ui->area3Text->setText("O");
+                ui->area3->setText("O");
 
-            board[0][2] = game.currentPlayer;
+            board[0][2] = game.cpu;
             area3Played = true;
 
-            ui->area3Text->setHidden(false);
-            ui->area3->setHidden(true);
-
             cpuMoveMade = true;
+
+            playerTurn();
         }
         break;
     case 4:
         if(!area4Played){
-            if(game.currentPlayer == 'X')
-                ui->area4Text->setText("X");
+            if(game.cpu == 'X')
+                ui->area4->setText("X");
             else
-                ui->area4Text->setText("O");
+                ui->area4->setText("O");
 
-            board[1][0] = game.currentPlayer;
+            board[1][0] = game.cpu;
             area4Played = true;
 
-            ui->area4Text->setHidden(false);
-            ui->area4->setHidden(true);
-
             cpuMoveMade = true;
+
+            playerTurn();
         }
         break;
     case 5:
         if(!area5Played){
-            if(game.currentPlayer == 'X')
-                ui->area5Text->setText("X");
+            if(game.cpu == 'X')
+                ui->area5->setText("X");
             else
-                ui->area5Text->setText("O");
+                ui->area5->setText("O");
 
-            board[1][1] = game.currentPlayer;
+            board[1][1] = game.cpu;
             area5Played = true;
 
-            ui->area5Text->setHidden(false);
-            ui->area5->setHidden(true);
-
             cpuMoveMade = true;
+
+            playerTurn();
         }
         break;
     case 6:
         if(!area6Played){
-            if(game.currentPlayer == 'X')
-                ui->area6Text->setText("X");
+            if(game.cpu == 'X')
+                ui->area6->setText("X");
             else
-                ui->area6Text->setText("O");
+                ui->area6->setText("O");
 
-            board[1][2] = game.currentPlayer;
+            board[1][2] = game.cpu;
             area6Played = true;
 
-            ui->area6Text->setHidden(false);
-            ui->area6->setHidden(true);
-
             cpuMoveMade = true;
+
+            playerTurn();
         }
         break;
     case 7:
         if(!area7Played){
-            if(game.currentPlayer == 'X')
-                ui->area7Text->setText("X");
+            if(game.cpu == 'X')
+                ui->area7->setText("X");
             else
-                ui->area7Text->setText("O");
+                ui->area7->setText("O");
 
-            board[2][0] = game.currentPlayer;
+            board[2][0] = game.cpu;
             area7Played = true;
 
-            ui->area7Text->setHidden(false);
-            ui->area7->setHidden(true);
-
             cpuMoveMade = true;
+
+            playerTurn();
         }
         break;
     case 8:
         if(!area8Played){
-            if(game.currentPlayer == 'X')
-                ui->area8Text->setText("X");
+            if(game.cpu == 'X')
+                ui->area8->setText("X");
             else
-                ui->area8Text->setText("O");
+                ui->area8->setText("O");
 
-            board[2][1] = game.currentPlayer;
+            board[2][1] = game.cpu;
             area8Played = true;
 
-            ui->area8Text->setHidden(false);
-            ui->area8->setHidden(true);
-
             cpuMoveMade = true;
+
+            playerTurn();
         }
         break;
     case 9:
         if(!area9Played){
-            if(game.currentPlayer == 'X')
-                ui->area9Text->setText("X");
+            if(game.cpu == 'X')
+                ui->area9->setText("X");
             else
-                ui->area9Text->setText("O");
+                ui->area9->setText("O");
 
-            board[2][2] = game.currentPlayer;
+            board[2][2] = game.cpu;
             area9Played = true;
 
-            ui->area9Text->setHidden(false);
-            ui->area9->setHidden(true);
-
             cpuMoveMade = true;
+
+            playerTurn();
         }
         break;
     }
-    if(cpuMoveMade == true)
-        changeTurns();
+}
+
+bool boardwindow::legalMoveCheck(int pos){
+    switch(pos){
+    case 1: return (board[0][0] == ' ');
+    case 2: return (board[0][1] == ' ');
+    case 3: return (board[0][2] == ' ');
+    case 4: return (board[1][0] == ' ');
+    case 5: return (board[1][1] == ' ');
+    case 6: return (board[1][2] == ' ');
+    case 7: return (board[2][0] == ' ');
+    case 8: return (board[2][1] == ' ');
+    case 9: return (board[2][2] == ' ');
+    default: return false;
+    }
 }

@@ -26,16 +26,16 @@ class boardwindow : public QWidget
 public:
     explicit boardwindow(QWidget *parent = nullptr);
     ~boardwindow();
+    void clearBoardUI();
+    void showChoices();
 
 private slots:
 
     void hideChoices();
-
     void showPlayArea();
 
-    void changeTurns();
-
-    void playCPUEasy(std::string order);
+    bool legalMoveCheck(int pos);
+    std::string getPlayer();
 
     void on_area1_clicked();
     void on_area2_clicked();
@@ -63,7 +63,15 @@ private slots:
 
     void on_replayConfirm_clicked();
 
-    void setArea(char, int);
+    void setArea(int);
+
+    void endGame();
+    void playerTurn();
+    void cpuTurn();
+    bool checkWinner();
+
+    void resetBoxes();
+
 
 signals:
     void backToMenu();

@@ -43,10 +43,10 @@ template <> constexpr inline auto boardwindow::qt_create_metaobjectdata<qt_meta_
         "",
         "hideChoices",
         "showPlayArea",
-        "changeTurns",
-        "playCPUEasy",
+        "legalMoveCheck",
+        "pos",
+        "getPlayer",
         "std::string",
-        "order",
         "on_area1_clicked",
         "on_area2_clicked",
         "on_area3_clicked",
@@ -64,7 +64,12 @@ template <> constexpr inline auto boardwindow::qt_create_metaobjectdata<qt_meta_
         "on_goFirst_clicked",
         "on_goSecond_clicked",
         "on_replayConfirm_clicked",
-        "setArea"
+        "setArea",
+        "endGame",
+        "playerTurn",
+        "cpuTurn",
+        "checkWinner",
+        "resetBoxes"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -74,12 +79,12 @@ template <> constexpr inline auto boardwindow::qt_create_metaobjectdata<qt_meta_
         QtMocHelpers::SlotData<void()>(3, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'showPlayArea'
         QtMocHelpers::SlotData<void()>(4, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'changeTurns'
-        QtMocHelpers::SlotData<void()>(5, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'playCPUEasy'
-        QtMocHelpers::SlotData<void(std::string)>(6, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { 0x80000000 | 7, 8 },
+        // Slot 'legalMoveCheck'
+        QtMocHelpers::SlotData<bool(int)>(5, 2, QMC::AccessPrivate, QMetaType::Bool, {{
+            { QMetaType::Int, 6 },
         }}),
+        // Slot 'getPlayer'
+        QtMocHelpers::SlotData<std::string()>(7, 2, QMC::AccessPrivate, 0x80000000 | 8),
         // Slot 'on_area1_clicked'
         QtMocHelpers::SlotData<void()>(9, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'on_area2_clicked'
@@ -115,9 +120,19 @@ template <> constexpr inline auto boardwindow::qt_create_metaobjectdata<qt_meta_
         // Slot 'on_replayConfirm_clicked'
         QtMocHelpers::SlotData<void()>(25, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'setArea'
-        QtMocHelpers::SlotData<void(char, int)>(26, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::Char, 2 }, { QMetaType::Int, 2 },
+        QtMocHelpers::SlotData<void(int)>(26, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::Int, 2 },
         }}),
+        // Slot 'endGame'
+        QtMocHelpers::SlotData<void()>(27, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'playerTurn'
+        QtMocHelpers::SlotData<void()>(28, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'cpuTurn'
+        QtMocHelpers::SlotData<void()>(29, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'checkWinner'
+        QtMocHelpers::SlotData<bool()>(30, 2, QMC::AccessPrivate, QMetaType::Bool),
+        // Slot 'resetBoxes'
+        QtMocHelpers::SlotData<void()>(31, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -144,8 +159,10 @@ void boardwindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 0: _t->backToMenu(); break;
         case 1: _t->hideChoices(); break;
         case 2: _t->showPlayArea(); break;
-        case 3: _t->changeTurns(); break;
-        case 4: _t->playCPUEasy((*reinterpret_cast< std::add_pointer_t<std::string>>(_a[1]))); break;
+        case 3: { bool _r = _t->legalMoveCheck((*reinterpret_cast< std::add_pointer_t<int>>(_a[1])));
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
+        case 4: { std::string _r = _t->getPlayer();
+            if (_a[0]) *reinterpret_cast< std::string*>(_a[0]) = std::move(_r); }  break;
         case 5: _t->on_area1_clicked(); break;
         case 6: _t->on_area2_clicked(); break;
         case 7: _t->on_area3_clicked(); break;
@@ -163,7 +180,13 @@ void boardwindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 19: _t->on_goFirst_clicked(); break;
         case 20: _t->on_goSecond_clicked(); break;
         case 21: _t->on_replayConfirm_clicked(); break;
-        case 22: _t->setArea((*reinterpret_cast< std::add_pointer_t<char>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<int>>(_a[2]))); break;
+        case 22: _t->setArea((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 23: _t->endGame(); break;
+        case 24: _t->playerTurn(); break;
+        case 25: _t->cpuTurn(); break;
+        case 26: { bool _r = _t->checkWinner();
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
+        case 27: _t->resetBoxes(); break;
         default: ;
         }
     }
@@ -192,14 +215,14 @@ int boardwindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 23)
+        if (_id < 28)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 23;
+        _id -= 28;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 23)
+        if (_id < 28)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 23;
+        _id -= 28;
     }
     return _id;
 }

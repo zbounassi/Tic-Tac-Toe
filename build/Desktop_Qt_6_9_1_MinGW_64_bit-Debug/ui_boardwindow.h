@@ -12,9 +12,9 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QFrame>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QTextBrowser>
-#include <QtWidgets/QTextEdit>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -35,7 +35,6 @@ public:
     QFrame *line2;
     QFrame *line3;
     QFrame *line4;
-    QTextBrowser *playerPrompt;
     QPushButton *gameExitButton;
     QPushButton *gameExitConfirm;
     QPushButton *gameExitDeny;
@@ -48,15 +47,7 @@ public:
     QTextBrowser *playAgainPrompt;
     QPushButton *replayConfirm;
     QPushButton *replayDeny;
-    QTextEdit *area1Text;
-    QTextEdit *area2Text;
-    QTextEdit *area3Text;
-    QTextEdit *area4Text;
-    QTextEdit *area5Text;
-    QTextEdit *area6Text;
-    QTextEdit *area7Text;
-    QTextEdit *area8Text;
-    QTextEdit *area9Text;
+    QLabel *playerPrompt;
 
     void setupUi(QWidget *boardwindow)
     {
@@ -68,28 +59,28 @@ public:
         area1->setGeometry(QRect(370, 200, 61, 51));
         area2 = new QPushButton(boardwindow);
         area2->setObjectName("area2");
-        area2->setGeometry(QRect(490, 210, 61, 41));
+        area2->setGeometry(QRect(490, 200, 61, 51));
         area3 = new QPushButton(boardwindow);
         area3->setObjectName("area3");
-        area3->setGeometry(QRect(600, 210, 61, 41));
+        area3->setGeometry(QRect(600, 200, 61, 51));
         area4 = new QPushButton(boardwindow);
         area4->setObjectName("area4");
-        area4->setGeometry(QRect(370, 300, 61, 41));
+        area4->setGeometry(QRect(370, 300, 61, 51));
         area5 = new QPushButton(boardwindow);
         area5->setObjectName("area5");
-        area5->setGeometry(QRect(490, 300, 61, 41));
+        area5->setGeometry(QRect(490, 300, 61, 51));
         area6 = new QPushButton(boardwindow);
         area6->setObjectName("area6");
-        area6->setGeometry(QRect(600, 300, 61, 41));
+        area6->setGeometry(QRect(600, 300, 61, 51));
         area7 = new QPushButton(boardwindow);
         area7->setObjectName("area7");
-        area7->setGeometry(QRect(370, 390, 61, 41));
+        area7->setGeometry(QRect(370, 390, 61, 51));
         area8 = new QPushButton(boardwindow);
         area8->setObjectName("area8");
-        area8->setGeometry(QRect(490, 390, 61, 41));
+        area8->setGeometry(QRect(490, 390, 61, 51));
         area9 = new QPushButton(boardwindow);
         area9->setObjectName("area9");
-        area9->setGeometry(QRect(600, 390, 61, 41));
+        area9->setGeometry(QRect(600, 390, 61, 51));
         line1 = new QFrame(boardwindow);
         line1->setObjectName("line1");
         line1->setGeometry(QRect(450, 170, 20, 301));
@@ -110,9 +101,6 @@ public:
         line4->setGeometry(QRect(350, 370, 341, 16));
         line4->setFrameShape(QFrame::Shape::HLine);
         line4->setFrameShadow(QFrame::Shadow::Sunken);
-        playerPrompt = new QTextBrowser(boardwindow);
-        playerPrompt->setObjectName("playerPrompt");
-        playerPrompt->setGeometry(QRect(370, 40, 301, 61));
         gameExitButton = new QPushButton(boardwindow);
         gameExitButton->setObjectName("gameExitButton");
         gameExitButton->setGeometry(QRect(930, 50, 80, 24));
@@ -149,68 +137,13 @@ public:
         replayDeny = new QPushButton(boardwindow);
         replayDeny->setObjectName("replayDeny");
         replayDeny->setGeometry(QRect(990, 310, 80, 24));
-        area1Text = new QTextEdit(boardwindow);
-        area1Text->setObjectName("area1Text");
-        area1Text->setGeometry(QRect(360, 190, 91, 71));
-        area2Text = new QTextEdit(boardwindow);
-        area2Text->setObjectName("area2Text");
-        area2Text->setGeometry(QRect(480, 190, 91, 71));
-        area3Text = new QTextEdit(boardwindow);
-        area3Text->setObjectName("area3Text");
-        area3Text->setGeometry(QRect(590, 190, 91, 71));
-        area4Text = new QTextEdit(boardwindow);
-        area4Text->setObjectName("area4Text");
-        area4Text->setGeometry(QRect(360, 290, 91, 71));
-        area5Text = new QTextEdit(boardwindow);
-        area5Text->setObjectName("area5Text");
-        area5Text->setGeometry(QRect(480, 290, 91, 71));
-        area6Text = new QTextEdit(boardwindow);
-        area6Text->setObjectName("area6Text");
-        area6Text->setGeometry(QRect(590, 290, 91, 71));
-        area7Text = new QTextEdit(boardwindow);
-        area7Text->setObjectName("area7Text");
-        area7Text->setGeometry(QRect(360, 380, 91, 71));
-        area8Text = new QTextEdit(boardwindow);
-        area8Text->setObjectName("area8Text");
-        area8Text->setGeometry(QRect(480, 380, 91, 71));
-        area9Text = new QTextEdit(boardwindow);
-        area9Text->setObjectName("area9Text");
-        area9Text->setGeometry(QRect(590, 380, 91, 71));
-        area9Text->raise();
-        area6Text->raise();
-        area3Text->raise();
-        area2Text->raise();
-        area5Text->raise();
-        area8Text->raise();
-        area7Text->raise();
-        area4Text->raise();
-        area1Text->raise();
-        area1->raise();
-        area2->raise();
-        area3->raise();
-        area4->raise();
-        area5->raise();
-        area6->raise();
-        area7->raise();
-        area8->raise();
-        area9->raise();
-        line1->raise();
-        line2->raise();
-        line3->raise();
-        line4->raise();
-        playerPrompt->raise();
-        gameExitButton->raise();
-        gameExitConfirm->raise();
-        gameExitDeny->raise();
-        exitPrompt->raise();
-        exitPromptMenu->raise();
-        menuExit->raise();
-        closeProgram->raise();
-        goFirst->raise();
-        goSecond->raise();
-        playAgainPrompt->raise();
-        replayConfirm->raise();
-        replayDeny->raise();
+        playerPrompt = new QLabel(boardwindow);
+        playerPrompt->setObjectName("playerPrompt");
+        playerPrompt->setGeometry(QRect(370, 30, 301, 81));
+        QFont font;
+        font.setFamilies({QString::fromUtf8("Verdana")});
+        font.setPointSize(15);
+        playerPrompt->setFont(font);
 
         retranslateUi(boardwindow);
 
@@ -229,14 +162,6 @@ public:
         area7->setText(QString());
         area8->setText(QString());
         area9->setText(QString());
-        playerPrompt->setHtml(QCoreApplication::translate("boardwindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"hr { height: 1px; border-width: 0; }\n"
-"li.unchecked::marker { content: \"\\2610\"; }\n"
-"li.checked::marker { content: \"\\2612\"; }\n"
-"</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Would you like to go first or second?</p></body></html>", nullptr));
         gameExitButton->setText(QCoreApplication::translate("boardwindow", "Exit to Menu", nullptr));
         gameExitConfirm->setText(QCoreApplication::translate("boardwindow", "Yes", nullptr));
         gameExitDeny->setText(QCoreApplication::translate("boardwindow", "No", nullptr));
@@ -272,6 +197,7 @@ public:
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt;\"><br /></p></body></html>", nullptr));
         replayConfirm->setText(QCoreApplication::translate("boardwindow", "Yes", nullptr));
         replayDeny->setText(QCoreApplication::translate("boardwindow", "No", nullptr));
+        playerPrompt->setText(QCoreApplication::translate("boardwindow", "TextLabel", nullptr));
     } // retranslateUi
 
 };

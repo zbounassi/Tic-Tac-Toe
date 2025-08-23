@@ -749,6 +749,23 @@ release/boardwindow.o: ../../boardwindow.cpp ../../boardwindow.h \
 		../../../6.9.1/mingw_64/include/QtCore/qlocale.h \
 		../../../6.9.1/mingw_64/include/QtGui/qguiapplication_platform.h \
 		ui_boardwindow.h \
+		../../../6.9.1/mingw_64/include/QtCore/QVariant \
+		../../../6.9.1/mingw_64/include/QtWidgets/QApplication \
+		../../../6.9.1/mingw_64/include/QtWidgets/qapplication.h \
+		../../../6.9.1/mingw_64/include/QtWidgets/QFrame \
+		../../../6.9.1/mingw_64/include/QtWidgets/qframe.h \
+		../../../6.9.1/mingw_64/include/QtWidgets/QPushButton \
+		../../../6.9.1/mingw_64/include/QtWidgets/qpushbutton.h \
+		../../../6.9.1/mingw_64/include/QtWidgets/qabstractbutton.h \
+		../../../6.9.1/mingw_64/include/QtWidgets/QTextBrowser \
+		../../../6.9.1/mingw_64/include/QtWidgets/qtextbrowser.h \
+		../../../6.9.1/mingw_64/include/QtWidgets/qtextedit.h \
+		../../../6.9.1/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+		../../../6.9.1/mingw_64/include/QtGui/qtextdocument.h \
+		../../../6.9.1/mingw_64/include/QtGui/qtextoption.h \
+		../../../6.9.1/mingw_64/include/QtGui/qtextcursor.h \
+		../../../6.9.1/mingw_64/include/QtGui/qtextformat.h \
+		../../../6.9.1/mingw_64/include/QtGui/qpen.h \
 		../../mainwindow.h \
 		../../../6.9.1/mingw_64/include/QtWidgets/QMainWindow \
 		../../../6.9.1/mingw_64/include/QtWidgets/qmainwindow.h \
@@ -1165,6 +1182,17 @@ release/mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		../../../6.9.1/mingw_64/include/QtWidgets/qmainwindow.h \
 		../../../6.9.1/mingw_64/include/QtWidgets/qtabwidget.h \
 		ui_mainwindow.h \
+		../../../6.9.1/mingw_64/include/QtCore/QVariant \
+		../../../6.9.1/mingw_64/include/QtWidgets/QApplication \
+		../../../6.9.1/mingw_64/include/QtWidgets/qapplication.h \
+		../../../6.9.1/mingw_64/include/QtWidgets/QLabel \
+		../../../6.9.1/mingw_64/include/QtWidgets/qlabel.h \
+		../../../6.9.1/mingw_64/include/QtWidgets/qframe.h \
+		../../../6.9.1/mingw_64/include/QtGui/qpicture.h \
+		../../../6.9.1/mingw_64/include/QtGui/qtextdocument.h \
+		../../../6.9.1/mingw_64/include/QtWidgets/QPushButton \
+		../../../6.9.1/mingw_64/include/QtWidgets/qpushbutton.h \
+		../../../6.9.1/mingw_64/include/QtWidgets/qabstractbutton.h \
 		../../tictactoeFuncs.cpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\mainwindow.o ..\..\mainwindow.cpp
 

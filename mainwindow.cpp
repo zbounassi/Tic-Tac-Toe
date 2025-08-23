@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->playMediumCPUButton->setHidden(true);
     ui->playHardCPUButton->setHidden(true);
     ui->backButtonMenu->setHidden(true);
-    ui->backButtonCPUselect->setHidden(true);
+    ui->backButtonCPUselect->setHidden(true);    
 }
 
 MainWindow::~MainWindow()
@@ -118,8 +118,10 @@ void MainWindow::on_twoPlayerButton_clicked()
 
 
 void MainWindow::on_playEasyCPUButton_clicked()
-{   
+{
     showBoard();
+    boardWindow->clearBoardUI();
+    boardWindow->showChoices();
 }
 
 
