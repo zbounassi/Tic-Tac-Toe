@@ -86,6 +86,11 @@ void boardwindow::clearBoardUI()
 
     game.turn = 1;
     game.won = false;
+    game.playerTurn = true;
+    game.cpuTurn = false;
+    game.currentPlayer = 'X';
+    game.player = 'X';
+    game.cpu = 'O';
 
     resetBoxes();
 }
@@ -201,12 +206,28 @@ bool boardwindow::checkWinner(){
     return false;
 }
 
+// Function used to perform multiplayer turns
+void boardwindow::mpTurn(){
+    checkWinner();
+    if(game.won || boardFull()){
+        endGame();
+        return;
+    }
+
+    if(game.turn % 2 != 0)
+        game.player = 'X';
+    else
+        game.player = 'O';
+
+    ui->playerPrompt->setText(QString("Player %1 make your move:").arg(game.player == 'X' ? 1 : 2));
+}
+
 // Function called to perform the player's turn
 void boardwindow::playerTurn(){
 
     checkWinner();
 
-    if(game.won || game.turn > 9){
+    if(game.won || boardFull()){
         endGame();
         return;
     }
@@ -240,7 +261,7 @@ int boardwindow::getDifficulty()
 // Move difficulty will be decided by the player's chosen input
 void boardwindow::cpuTurn(){
 
-    if(game.won || game.turn > 9){
+    if(game.won || boardFull()){
         endGame();
         return;
     }
@@ -547,18 +568,6 @@ void boardwindow::on_area9_clicked()
     }
 }
 
-// Button that when pressed is used to close the program
-void boardwindow::on_closeProgram_clicked()
-{
-    close();
-}
-
-// Button that when pressed is used to exit to the main menu
-void boardwindow::on_menuExit_clicked()
-{
-    this->hide();
-    emit backToMenu();
-}
 
 // Starting a game where the Player moves first
 void boardwindow::on_goFirst_clicked()
@@ -758,18 +767,44 @@ bool boardwindow::legalMoveCheck(int pos){
     }
 }
 
+// Boolean function used to determine if the board is full, used to determine the case of a draw
+bool boardwindow::boardFull()
+{
+    bool empty = false, full = false;
+
+    for(int i = 0; i < 3 && !empty; i++)
+        for(int j = 0; j < 3; j++)
+            if(board[i][j] == ' ')
+                empty = true;
+
+    if(!empty)
+        full = true;
+
+    return(full);
+}
+
 // Button that will allow the user to proceed with or cancel exiting the game
 void boardwindow::on_gameExitButton_clicked()
 {
     if(ui->gameExitConfirm->isHidden() == true){
-        ui->gameExitConfirm->setHidden(false);
-        ui->gameExitDeny->setHidden(false);
-        ui->exitPrompt->setHidden(false);
+        if(ui->menuExit->isHidden() == false){
+            ui->exitPromptMenu->setHidden(true);
+            ui->menuExit->setHidden(true);
+            ui->closeProgram->setHidden(true);
+            ui->gameExitConfirm->setHidden(true);
+            ui->gameExitDeny->setHidden(true);
+            ui->exitPrompt->setHidden(true);
+        }
+        else{
+            ui->exitPrompt->setHidden(false);
+            ui->gameExitConfirm->setHidden(false);
+            ui->gameExitDeny->setHidden(false);
+        }
     }
-    else{
+    else if(ui->gameExitConfirm->isHidden() == false){
+        ui->exitPrompt->setHidden(true);
         ui->gameExitConfirm->setHidden(true);
         ui->gameExitDeny->setHidden(true);
-        ui->exitPrompt->setHidden(true);
     }
 }
 
@@ -780,6 +815,9 @@ void boardwindow::on_gameExitConfirm_clicked()
     ui->exitPromptMenu->setHidden(false);
     ui->menuExit->setHidden(false);
     ui->closeProgram->setHidden(false);
+
+    ui->gameExitConfirm->setHidden(true);
+    ui->gameExitDeny->setHidden(true);
 }
 
 // Button that when clicked will deny the action of exiting the game
@@ -790,3 +828,15 @@ void boardwindow::on_gameExitDeny_clicked()
     ui->exitPrompt->setHidden(true);
 }
 
+// Button that when pressed is used to close the program
+void boardwindow::on_closeProgram_clicked()
+{
+    close();
+}
+
+// Button that when pressed is used to exit to the main menu
+void boardwindow::on_menuExit_clicked()
+{
+    this->hide();
+    emit backToMenu();
+}

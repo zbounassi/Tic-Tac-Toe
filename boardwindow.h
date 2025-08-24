@@ -28,6 +28,7 @@ public:
     void clearBoardUI();
     void showChoices();
     void hidePlayArea();
+    void mpTurn();
 
 private slots:
 
@@ -48,32 +49,23 @@ private slots:
     void on_area9_clicked();
 
     void on_gameExitConfirm_clicked();
-
     void on_gameExitDeny_clicked();
-
     void on_gameExitButton_clicked();
-
     void on_closeProgram_clicked();
-
     void on_menuExit_clicked();
-
     void on_goFirst_clicked();
-
     void on_goSecond_clicked();
-
     void on_replayConfirm_clicked();
 
     void setArea(int);
-
     void endGame();
     void playerTurn();
-
     int getDifficulty();
     void cpuTurn();
+
     bool checkWinner();
-
     void resetBoxes();
-
+    bool boardFull();
     void on_replayDeny_clicked();
 
 signals:

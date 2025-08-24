@@ -114,7 +114,9 @@ void MainWindow::on_backButtonCPUselect_clicked()
 
 void MainWindow::on_twoPlayerButton_clicked()
 {
-    playTicTacToe(board);
+    showBoard();
+    boardWindow->clearBoardUI();
+    boardWindow->mpTurn();
 }
 
 
