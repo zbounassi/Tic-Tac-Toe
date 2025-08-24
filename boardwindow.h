@@ -67,11 +67,14 @@ private slots:
 
     void endGame();
     void playerTurn();
+
+    int getDifficulty();
     void cpuTurn();
     bool checkWinner();
 
     void resetBoxes();
 
+    void on_replayDeny_clicked();
 
 signals:
     void backToMenu();

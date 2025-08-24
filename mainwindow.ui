@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1920</width>
+    <height>1080</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <widget class="QPushButton" name="vsCPUButton">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>360</y>
+      <x>830</x>
+      <y>540</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -30,8 +30,8 @@
    <widget class="QPushButton" name="playEasyCPUButton">
     <property name="geometry">
      <rect>
-      <x>330</x>
-      <y>290</y>
+      <x>940</x>
+      <y>470</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -43,8 +43,8 @@
    <widget class="QPushButton" name="twoPlayerButton">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>290</y>
+      <x>830</x>
+      <y>470</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -56,8 +56,8 @@
    <widget class="QPushButton" name="backButtonMenu">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>430</y>
+      <x>830</x>
+      <y>610</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -69,8 +69,8 @@
    <widget class="QPushButton" name="playMediumCPUButton">
     <property name="geometry">
      <rect>
-      <x>330</x>
-      <y>360</y>
+      <x>940</x>
+      <y>540</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -82,8 +82,8 @@
    <widget class="QLabel" name="titleText">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>70</y>
+      <x>740</x>
+      <y>250</y>
       <width>361</width>
       <height>201</height>
      </rect>
@@ -100,8 +100,8 @@
    <widget class="QPushButton" name="playButton">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>290</y>
+      <x>830</x>
+      <y>470</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -113,8 +113,8 @@
    <widget class="QPushButton" name="backButtonCPUselect">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>430</y>
+      <x>830</x>
+      <y>610</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -126,8 +126,8 @@
    <widget class="QPushButton" name="settingsButton">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>360</y>
+      <x>830</x>
+      <y>540</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -139,8 +139,8 @@
    <widget class="QPushButton" name="exitButton">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>430</y>
+      <x>830</x>
+      <y>610</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -152,8 +152,8 @@
    <widget class="QPushButton" name="playHardCPUButton">
     <property name="geometry">
      <rect>
-      <x>330</x>
-      <y>430</y>
+      <x>940</x>
+      <y>610</y>
       <width>91</width>
       <height>31</height>
      </rect>

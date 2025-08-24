@@ -3,8 +3,9 @@
 #include "tictactoeFuncs.cpp"
 #include <array>
 
+std::string difficulty;
 bool settingsClicked = false, playClicked = false;
-array<array<char, ROWS>,COLS> board = {{}};
+array<array<char, 3>,3> board = {{}};
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -119,6 +120,7 @@ void MainWindow::on_twoPlayerButton_clicked()
 
 void MainWindow::on_playEasyCPUButton_clicked()
 {
+    difficulty = "Easy";
     showBoard();
     boardWindow->clearBoardUI();
     boardWindow->showChoices();
@@ -127,11 +129,18 @@ void MainWindow::on_playEasyCPUButton_clicked()
 
 void MainWindow::on_playMediumCPUButton_clicked()
 {
-    playTicTacToeCPUMedium(board);
+    difficulty = "Medium";
+    showBoard();
+    boardWindow->clearBoardUI();
+    boardWindow->showChoices();
 }
 
 
 void MainWindow::on_playHardCPUButton_clicked()
 {
-    playTicTacToeCPUHard(board);
+    difficulty = "Hard";
+    showBoard();
+    boardWindow->clearBoardUI();
+    boardWindow->showChoices();
+
 }

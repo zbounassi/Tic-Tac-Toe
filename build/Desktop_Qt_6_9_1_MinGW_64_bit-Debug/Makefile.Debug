@@ -754,6 +754,10 @@ debug/boardwindow.o: ../../boardwindow.cpp ../../boardwindow.h \
 		../../../6.9.1/mingw_64/include/QtWidgets/qapplication.h \
 		../../../6.9.1/mingw_64/include/QtWidgets/QFrame \
 		../../../6.9.1/mingw_64/include/QtWidgets/qframe.h \
+		../../../6.9.1/mingw_64/include/QtWidgets/QLabel \
+		../../../6.9.1/mingw_64/include/QtWidgets/qlabel.h \
+		../../../6.9.1/mingw_64/include/QtGui/qpicture.h \
+		../../../6.9.1/mingw_64/include/QtGui/qtextdocument.h \
 		../../../6.9.1/mingw_64/include/QtWidgets/QPushButton \
 		../../../6.9.1/mingw_64/include/QtWidgets/qpushbutton.h \
 		../../../6.9.1/mingw_64/include/QtWidgets/qabstractbutton.h \
@@ -761,7 +765,6 @@ debug/boardwindow.o: ../../boardwindow.cpp ../../boardwindow.h \
 		../../../6.9.1/mingw_64/include/QtWidgets/qtextbrowser.h \
 		../../../6.9.1/mingw_64/include/QtWidgets/qtextedit.h \
 		../../../6.9.1/mingw_64/include/QtWidgets/qabstractscrollarea.h \
-		../../../6.9.1/mingw_64/include/QtGui/qtextdocument.h \
 		../../../6.9.1/mingw_64/include/QtGui/qtextoption.h \
 		../../../6.9.1/mingw_64/include/QtGui/qtextcursor.h \
 		../../../6.9.1/mingw_64/include/QtGui/qtextformat.h \

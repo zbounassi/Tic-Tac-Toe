@@ -4,6 +4,7 @@
 #include "tictactoeFuncs.h"
 using namespace std;
 
+extern string difficulty;
 string order;
 
 bool area1Played = false;
@@ -73,6 +74,10 @@ void boardwindow::showChoices()
 // Function call to clear the playing UI and reset related game rules
 void boardwindow::clearBoardUI()
 {
+    ui->playAgainPrompt->setHidden(true);
+    ui->replayConfirm->setHidden(true);
+    ui->replayDeny->setHidden(true);
+
     hidePlayArea();
 
     for(int i = 0; i < 3; i++)
@@ -124,6 +129,7 @@ void boardwindow::showPlayArea()
 }
 
 // Function used to reset all of the play areas to the empty string
+// Also resets the areaPlayed booleans so that the CPU will recognize open spaces across multiple games
 void boardwindow::resetBoxes()
 {
     ui->area1->setText("");
@@ -135,6 +141,16 @@ void boardwindow::resetBoxes()
     ui->area7->setText("");
     ui->area8->setText("");
     ui->area9->setText("");
+
+    area1Played = false;
+    area2Played = false;
+    area3Played = false;
+    area4Played = false;
+    area5Played = false;
+    area6Played = false;
+    area7Played = false;
+    area8Played = false;
+    area9Played = false;
 }
 
 // Function call to announce that the game is over
@@ -187,6 +203,9 @@ bool boardwindow::checkWinner(){
 
 // Function called to perform the player's turn
 void boardwindow::playerTurn(){
+
+    checkWinner();
+
     if(game.won || game.turn > 9){
         endGame();
         return;
@@ -203,6 +222,20 @@ void boardwindow::playerTurn(){
     ui->playerPrompt->setText("Player please make your move:");
 }
 
+// Function will return the move for the CPU based on the selected level of difficulty
+int boardwindow::getDifficulty()
+{
+    int move;
+    if(difficulty == "Easy")
+        move = cpuMoveEasy();
+    else if(difficulty == "Medium")
+        move = cpuMoveMedium(board, game.cpu, game.player);
+    else
+        move = cpuMoveHard(board, game.cpu, game.player, game.turn);
+
+    return(move);
+}
+
 // Function called to perform the CPU's turn
 // Move difficulty will be decided by the player's chosen input
 void boardwindow::cpuTurn(){
@@ -214,35 +247,42 @@ void boardwindow::cpuTurn(){
 
     game.playerTurn = false;
     game.cpuTurn = true;
-
     game.currentPlayer = game.cpu;
+
     ui->playerPrompt->setText("CPU is calculating its move");
     QApplication::processEvents();
 
     int position;
 
     do{
-        position = cpuMoveEasy();
+        position = getDifficulty();
     } while (!legalMoveCheck(position));
 
     setArea(position);
 
+    game.turn++;
+
     if(game.turn >= 5)
         checkWinner();
 
-    game.turn++;
 }
 
 // Area 1 (Top Left) of the board will be set to the player's character
 void boardwindow::on_area1_clicked()
 {
-    if(game.player == 'X')
-        ui->area1->setText("X");
-    else
-        ui->area1->setText("O");
+    if(area1Played == true){
+        ui->playerPrompt->setText("Invalid selection: please try again");
+        return;
+    }
+    else{
+        if(game.player == 'X')
+            ui->area1->setText("X");
+        else
+            ui->area1->setText("O");
 
-    board[0][0] = game.player;
-    area1Played = true;
+        board[0][0] = game.player;
+        area1Played = true;
+    }
 
     if(game.turn > 4){
         if(!checkWinner()){
@@ -261,13 +301,19 @@ void boardwindow::on_area1_clicked()
 // Area 2 (Top Middle) of the board will be set to the player's character
 void boardwindow::on_area2_clicked()
 {
-    if(game.player == 'X')
-        ui->area2->setText("X");
-    else
-        ui->area2->setText("O");
+    if(area2Played == true){
+        ui->playerPrompt->setText("Invalid selection: please try again");
+        return;
+    }
+    else{
+        if(game.player == 'X')
+            ui->area2->setText("X");
+        else
+            ui->area2->setText("O");
 
-    board[0][1] = game.player;
-    area2Played = true;
+        board[0][1] = game.player;
+        area2Played = true;
+    }
 
     if(game.turn > 4){
         if(!checkWinner()){
@@ -286,13 +332,19 @@ void boardwindow::on_area2_clicked()
 // Area 3 (Top Right) of the board will be set to the player's character
 void boardwindow::on_area3_clicked()
 {
-    if(game.player == 'X')
-        ui->area3->setText("X");
-    else
-        ui->area3->setText("O");
+    if(area3Played == true){
+        ui->playerPrompt->setText("Invalid selection: please try again");
+        return;
+    }
+    else{
+        if(game.player == 'X')
+            ui->area3->setText("X");
+        else
+            ui->area3->setText("O");
 
-    board[0][2] = game.player;
-    area3Played = true;
+        board[0][2] = game.player;
+        area3Played = true;
+    }
 
     if(game.turn > 4){
         if(!checkWinner()){
@@ -311,13 +363,20 @@ void boardwindow::on_area3_clicked()
 // Area 4 (Middle Left) of the board will be set to the player's character
 void boardwindow::on_area4_clicked()
 {
-    if(game.player == 'X')
-        ui->area4->setText("X");
-    else
-        ui->area4->setText("O");
 
-    board[1][0] = game.player;
-    area4Played = true;
+    if(area4Played == true){
+        ui->playerPrompt->setText("Invalid selection: please try again");
+        return;
+    }
+    else{
+        if(game.player == 'X')
+            ui->area4->setText("X");
+        else
+            ui->area4->setText("O");
+
+        board[1][0] = game.player;
+        area4Played = true;
+    }
 
     if(game.turn > 4){
         if(!checkWinner()){
@@ -336,13 +395,19 @@ void boardwindow::on_area4_clicked()
 // Area 5 (Middle Middle) of the board will be set to the player's character
 void boardwindow::on_area5_clicked()
 {
-    if(game.player == 'X')
-        ui->area5->setText("X");
-    else
-        ui->area5->setText("O");
+    if(area5Played == true){
+        ui->playerPrompt->setText("Invalid selection: please try again");
+        return;
+    }
+    else{
+        if(game.player == 'X')
+            ui->area5->setText("X");
+        else
+            ui->area5->setText("O");
 
-    board[1][1] = game.player;
-    area5Played = true;
+        board[1][1] = game.player;
+        area5Played = true;
+    }
 
     if(game.turn > 4){
         if(!checkWinner()){
@@ -361,13 +426,19 @@ void boardwindow::on_area5_clicked()
 // Area 6 (Middle Right) of the board will be set to the player's character
 void boardwindow::on_area6_clicked()
 {
-    if(game.player == 'X')
-        ui->area6->setText("X");
-    else
-        ui->area6->setText("O");
+    if(area6Played == true){
+        ui->playerPrompt->setText("Invalid selection: please try again");
+        return;
+    }
+    else{
+        if(game.player == 'X')
+            ui->area6->setText("X");
+        else
+            ui->area6->setText("O");
 
-    board[1][2] = game.player;
-    area6Played = true;
+        board[1][2] = game.player;
+        area6Played = true;
+    }
 
     if(game.turn > 4){
         if(!checkWinner()){
@@ -386,13 +457,19 @@ void boardwindow::on_area6_clicked()
 // Area 7 (Bottom Left) of the board will be set to the player's character
 void boardwindow::on_area7_clicked()
 {
-    if(game.player == 'X')
-        ui->area7->setText("X");
-    else
-        ui->area7->setText("O");
+    if(area7Played == true){
+        ui->playerPrompt->setText("Invalid selection: please try again");
+        return;
+    }
+    else{
+        if(game.player == 'X')
+            ui->area7->setText("X");
+        else
+            ui->area7->setText("O");
 
-    board[2][0] = game.player;
-    area7Played = true;
+        board[2][0] = game.player;
+        area7Played = true;
+    }
 
     if(game.turn > 4){
         if(!checkWinner()){
@@ -411,13 +488,19 @@ void boardwindow::on_area7_clicked()
 // Area 8 (Bottom Middle) of the board will be set to the player's character
 void boardwindow::on_area8_clicked()
 {
-    if(game.player == 'X')
-        ui->area8->setText("X");
-    else
-        ui->area8->setText("O");
+    if(area8Played == true){
+        ui->playerPrompt->setText("Invalid selection: please try again");
+        return;
+    }
+    else{
+        if(game.player == 'X')
+            ui->area8->setText("X");
+        else
+            ui->area8->setText("O");
 
-    board[2][1] = game.player;
-    area8Played = true;
+        board[2][1] = game.player;
+        area8Played = true;
+    }
 
     if(game.turn > 4){
         if(!checkWinner()){
@@ -436,13 +519,19 @@ void boardwindow::on_area8_clicked()
 // Area 9 (Bottom Right) of the board will be set to the player's character
 void boardwindow::on_area9_clicked()
 {
-    if(game.player == 'X')
-        ui->area9->setText("X");
-    else
-        ui->area9->setText("O");
+    if(area9Played == true){
+        ui->playerPrompt->setText("Invalid selection: please try again");
+        return;
+    }
+    else{
+        if(game.player == 'X')
+            ui->area9->setText("X");
+        else
+            ui->area9->setText("O");
 
-    board[2][2] = game.player;
-    area9Played = true;
+        board[2][2] = game.player;
+        area9Played = true;
+    }
 
     if(game.turn > 4){
         if(!checkWinner()){
@@ -456,31 +545,6 @@ void boardwindow::on_area9_clicked()
         game.turn++;
         cpuTurn();
     }
-}
-
-// Button that will allow the user to proceed with or cancel exiting the game
-void boardwindow::on_gameExitButton_clicked()
-{
-    ui->gameExitConfirm->setHidden(false);
-    ui->gameExitDeny->setHidden(false);
-    ui->exitPrompt->setHidden(false);
-}
-
-// Button that confirms the user wants to exit the game
-// They are then prompted if they want to close the program or enter the main menu
-void boardwindow::on_gameExitConfirm_clicked()
-{
-    ui->exitPromptMenu->setHidden(false);
-    ui->menuExit->setHidden(false);
-    ui->closeProgram->setHidden(false);
-}
-
-// Button that when clicked will deny the action of exiting the game
-void boardwindow::on_gameExitDeny_clicked()
-{
-    ui->gameExitConfirm->setHidden(true);
-    ui->gameExitDeny->setHidden(true);
-    ui->exitPrompt->setHidden(true);
 }
 
 // Button that when pressed is used to close the program
@@ -520,10 +584,21 @@ void boardwindow::on_goSecond_clicked()
     cpuTurn();
 }
 
+// Button definition to replay the same difficulty once the game is complete
 void boardwindow::on_replayConfirm_clicked()
 {
+    clearBoardUI();
 
+    showChoices();
 }
+
+// Button definition to exit to the main menu once the game is complete
+void boardwindow::on_replayDeny_clicked()
+{
+    this->hide();
+    emit backToMenu();
+}
+
 
 // Function used to enable the CPU to pick a square and move the turn to the player
 void boardwindow::setArea(int pos){
@@ -682,3 +757,36 @@ bool boardwindow::legalMoveCheck(int pos){
     default: return false;
     }
 }
+
+// Button that will allow the user to proceed with or cancel exiting the game
+void boardwindow::on_gameExitButton_clicked()
+{
+    if(ui->gameExitConfirm->isHidden() == true){
+        ui->gameExitConfirm->setHidden(false);
+        ui->gameExitDeny->setHidden(false);
+        ui->exitPrompt->setHidden(false);
+    }
+    else{
+        ui->gameExitConfirm->setHidden(true);
+        ui->gameExitDeny->setHidden(true);
+        ui->exitPrompt->setHidden(true);
+    }
+}
+
+// Button that confirms the user wants to exit the game
+// They are then prompted if they want to close the program or enter the main menu
+void boardwindow::on_gameExitConfirm_clicked()
+{
+    ui->exitPromptMenu->setHidden(false);
+    ui->menuExit->setHidden(false);
+    ui->closeProgram->setHidden(false);
+}
+
+// Button that when clicked will deny the action of exiting the game
+void boardwindow::on_gameExitDeny_clicked()
+{
+    ui->gameExitConfirm->setHidden(true);
+    ui->gameExitDeny->setHidden(true);
+    ui->exitPrompt->setHidden(true);
+}
+

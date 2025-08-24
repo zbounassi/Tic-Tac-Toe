@@ -2,6 +2,8 @@
 #include<array>
 #include<iomanip>
 using namespace std;
+extern std::string difficulty;
+extern array<array<char, 3>,3> board;
 
 // Used to ensure the board is consisted of 3 rows and 3 columns
 constexpr int ROWS = 3;
