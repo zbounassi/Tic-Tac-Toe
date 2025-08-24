@@ -4,6 +4,7 @@
 #include "tictactoeFuncs.h"
 using namespace std;
 
+extern string gameMode;
 extern string difficulty;
 string order;
 
@@ -54,6 +55,24 @@ boardwindow::boardwindow(QWidget *parent)
 boardwindow::~boardwindow()
 {
     delete ui;
+}
+
+/*
+-----------------------------------------------------------------------------------------------------------
+    Functions that are used in the setup, reset, and display of the gameboard
+-----------------------------------------------------------------------------------------------------------
+*/
+
+// Function used to determine if the game being played is multiplayer or vsCPU
+void boardwindow::setGameMode()
+{
+    if(gameMode == "MULTIPLAYER"){
+        hideChoices();
+        showPlayArea();
+        mpTurn();
+    }
+    else
+        showChoices();
 }
 
 // Function used to hide extraneous buttons once the player determines the playing order
@@ -158,53 +177,15 @@ void boardwindow::resetBoxes()
     area9Played = false;
 }
 
-// Function call to announce that the game is over
-// Message will change based on the outcome being a draw or win
-// Will be adjusted to prompt the user if they would like to play again
-void boardwindow::endGame(){
-    ui->playAgainPrompt->setHidden(false);
-    ui->replayConfirm->setHidden(false);
-    ui->replayDeny->setHidden(false);
 
-    if(game.won == false)
-        ui->playerPrompt->setText("It's a draw!");
-    QString currentText = ui->playerPrompt->text();
-    ui->playerPrompt->setText(currentText + "\nThe game is now over!");
-}
 
-// Function call to receive the current player and return that string so it can be displayed
-std::string boardwindow::getPlayer(){
-    if(game.playerTurn)
-        return "Player";
-    else
-        return "CPU";
-}
+/*
+-----------------------------------------------------------------------------------------------------------
+    Functions that pertain to the moves made by a player or the cpu
+-----------------------------------------------------------------------------------------------------------
+*/
 
-// Function that will check if the move made wins the game
-// If the game is won, a message will display showing the winner
-bool boardwindow::checkWinner(){
 
-    char player = game.currentPlayer;
-    bool won = false;
-
-    //check rows and cols
-    for (int i = 0; i < 3; i++) {
-        if (board[i][0] == player && board[i][1] == player && board[i][2] == player) won = true;
-        if (board[0][i] == player && board[1][i] == player && board[2][i] == player) won = true;
-    }
-
-    //check diagonals
-    if (board[0][0] == player && board[1][1] == player && board[2][2] == player) won = true;
-    if (board[2][0] == player && board[1][1] == player && board[0][2] == player) won = true;
-
-    if(won){
-        game.won = true;
-        string winner = getPlayer();
-        ui->playerPrompt->setText(QString("The %1 has won the game!").arg(winner));
-    }
-    //false if none are true
-    return false;
-}
 
 // Function used to perform multiplayer turns
 void boardwindow::mpTurn(){
@@ -218,6 +199,7 @@ void boardwindow::mpTurn(){
         game.player = 'X';
     else
         game.player = 'O';
+    game.currentPlayer = game.player;
 
     ui->playerPrompt->setText(QString("Player %1 make your move:").arg(game.player == 'X' ? 1 : 2));
 }
@@ -305,17 +287,27 @@ void boardwindow::on_area1_clicked()
         area1Played = true;
     }
 
-    if(game.turn > 4){
+    if(gameMode == "MULTIPLAYER"){
         if(!checkWinner()){
             game.turn++;
-            cpuTurn();
+            mpTurn();
         }
         else
             endGame();
     }
     else{
-        game.turn++;
-        cpuTurn();
+        if(game.turn > 4){
+            if(!checkWinner()){
+                game.turn++;
+                cpuTurn();
+            }
+            else
+                endGame();
+        }
+        else{
+            game.turn++;
+            cpuTurn();
+        }
     }
 }
 
@@ -336,17 +328,27 @@ void boardwindow::on_area2_clicked()
         area2Played = true;
     }
 
-    if(game.turn > 4){
+    if(gameMode == "MULTIPLAYER"){
         if(!checkWinner()){
             game.turn++;
-            cpuTurn();
+            mpTurn();
         }
         else
             endGame();
     }
     else{
-        game.turn++;
-        cpuTurn();
+        if(game.turn > 4){
+            if(!checkWinner()){
+                game.turn++;
+                cpuTurn();
+            }
+            else
+                endGame();
+        }
+        else{
+            game.turn++;
+            cpuTurn();
+        }
     }
 }
 
@@ -367,17 +369,27 @@ void boardwindow::on_area3_clicked()
         area3Played = true;
     }
 
-    if(game.turn > 4){
+    if(gameMode == "MULTIPLAYER"){
         if(!checkWinner()){
             game.turn++;
-            cpuTurn();
+            mpTurn();
         }
         else
             endGame();
     }
     else{
-        game.turn++;
-        cpuTurn();
+        if(game.turn > 4){
+            if(!checkWinner()){
+                game.turn++;
+                cpuTurn();
+            }
+            else
+                endGame();
+        }
+        else{
+            game.turn++;
+            cpuTurn();
+        }
     }
 }
 
@@ -399,17 +411,27 @@ void boardwindow::on_area4_clicked()
         area4Played = true;
     }
 
-    if(game.turn > 4){
+    if(gameMode == "MULTIPLAYER"){
         if(!checkWinner()){
             game.turn++;
-            cpuTurn();
+            mpTurn();
         }
         else
             endGame();
     }
     else{
-        game.turn++;
-        cpuTurn();
+        if(game.turn > 4){
+            if(!checkWinner()){
+                game.turn++;
+                cpuTurn();
+            }
+            else
+                endGame();
+        }
+        else{
+            game.turn++;
+            cpuTurn();
+        }
     }
 }
 
@@ -430,17 +452,27 @@ void boardwindow::on_area5_clicked()
         area5Played = true;
     }
 
-    if(game.turn > 4){
+    if(gameMode == "MULTIPLAYER"){
         if(!checkWinner()){
             game.turn++;
-            cpuTurn();
+            mpTurn();
         }
         else
             endGame();
     }
     else{
-        game.turn++;
-        cpuTurn();
+        if(game.turn > 4){
+            if(!checkWinner()){
+                game.turn++;
+                cpuTurn();
+            }
+            else
+                endGame();
+        }
+        else{
+            game.turn++;
+            cpuTurn();
+        }
     }
 }
 
@@ -461,17 +493,27 @@ void boardwindow::on_area6_clicked()
         area6Played = true;
     }
 
-    if(game.turn > 4){
+    if(gameMode == "MULTIPLAYER"){
         if(!checkWinner()){
             game.turn++;
-            cpuTurn();
+            mpTurn();
         }
         else
             endGame();
     }
     else{
-        game.turn++;
-        cpuTurn();
+        if(game.turn > 4){
+            if(!checkWinner()){
+                game.turn++;
+                cpuTurn();
+            }
+            else
+                endGame();
+        }
+        else{
+            game.turn++;
+            cpuTurn();
+        }
     }
 }
 
@@ -492,17 +534,27 @@ void boardwindow::on_area7_clicked()
         area7Played = true;
     }
 
-    if(game.turn > 4){
+    if(gameMode == "MULTIPLAYER"){
         if(!checkWinner()){
             game.turn++;
-            cpuTurn();
+            mpTurn();
         }
         else
             endGame();
     }
     else{
-        game.turn++;
-        cpuTurn();
+        if(game.turn > 4){
+            if(!checkWinner()){
+                game.turn++;
+                cpuTurn();
+            }
+            else
+                endGame();
+        }
+        else{
+            game.turn++;
+            cpuTurn();
+        }
     }
 }
 
@@ -523,17 +575,27 @@ void boardwindow::on_area8_clicked()
         area8Played = true;
     }
 
-    if(game.turn > 4){
+    if(gameMode == "MULTIPLAYER"){
         if(!checkWinner()){
             game.turn++;
-            cpuTurn();
+            mpTurn();
         }
         else
             endGame();
     }
     else{
-        game.turn++;
-        cpuTurn();
+        if(game.turn > 4){
+            if(!checkWinner()){
+                game.turn++;
+                cpuTurn();
+            }
+            else
+                endGame();
+        }
+        else{
+            game.turn++;
+            cpuTurn();
+        }
     }
 }
 
@@ -554,60 +616,29 @@ void boardwindow::on_area9_clicked()
         area9Played = true;
     }
 
-    if(game.turn > 4){
+    if(gameMode == "MULTIPLAYER"){
         if(!checkWinner()){
             game.turn++;
-            cpuTurn();
+            mpTurn();
         }
         else
             endGame();
     }
     else{
-        game.turn++;
-        cpuTurn();
+        if(game.turn > 4){
+            if(!checkWinner()){
+                game.turn++;
+                cpuTurn();
+            }
+            else
+                endGame();
+        }
+        else{
+            game.turn++;
+            cpuTurn();
+        }
     }
 }
-
-
-// Starting a game where the Player moves first
-void boardwindow::on_goFirst_clicked()
-{
-    hideChoices();
-    showPlayArea();
-
-    game.player = 'X';
-    game.cpu = 'O';
-
-    playerTurn();
-}
-
-// Starting a game where the CPU moves first
-void boardwindow::on_goSecond_clicked()
-{
-    hideChoices();
-    showPlayArea();
-
-    game.player = 'O';
-    game.cpu = 'X';
-
-    cpuTurn();
-}
-
-// Button definition to replay the same difficulty once the game is complete
-void boardwindow::on_replayConfirm_clicked()
-{
-    clearBoardUI();
-
-    showChoices();
-}
-
-// Button definition to exit to the main menu once the game is complete
-void boardwindow::on_replayDeny_clicked()
-{
-    this->hide();
-    emit backToMenu();
-}
-
 
 // Function used to enable the CPU to pick a square and move the turn to the player
 void boardwindow::setArea(int pos){
@@ -767,6 +798,72 @@ bool boardwindow::legalMoveCheck(int pos){
     }
 }
 
+/*
+-----------------------------------------------------------------------------------------------------------
+    Functions used in determining the outcome of a game
+-----------------------------------------------------------------------------------------------------------
+*/
+
+// Function call to announce that the game is over
+// Message will change based on the outcome being a draw or win
+// Will be adjusted to prompt the user if they would like to play again
+void boardwindow::endGame(){
+    ui->playAgainPrompt->setHidden(false);
+    ui->replayConfirm->setHidden(false);
+    ui->replayDeny->setHidden(false);
+
+    if(game.won == false)
+        ui->playerPrompt->setText("It's a draw!");
+    QString currentText = ui->playerPrompt->text();
+    ui->playerPrompt->setText(currentText + "\nThe game is now over!");
+}
+
+// Function call to receive the current player and return that string so it can be displayed
+std::string boardwindow::getPlayer(){
+    if(game.playerTurn)
+        return "Player";
+    else
+        return "CPU";
+}
+
+// Function that will check if the move made wins the game
+// If the game is won, a message will display showing the winner
+bool boardwindow::checkWinner(){
+
+    string winner;
+    char player = game.currentPlayer;
+    bool won = false;
+
+    //check rows and cols
+    for (int i = 0; i < 3; i++) {
+        if (board[i][0] == player && board[i][1] == player && board[i][2] == player) won = true;
+        if (board[0][i] == player && board[1][i] == player && board[2][i] == player) won = true;
+    }
+
+    //check diagonals
+    if (board[0][0] == player && board[1][1] == player && board[2][2] == player) won = true;
+    if (board[2][0] == player && board[1][1] == player && board[0][2] == player) won = true;
+
+    if(won){
+        game.won = true;
+        if(gameMode == "CPU"){
+            winner = getPlayer();
+            ui->playerPrompt->setText(QString("The %1 has won the game!").arg(winner));
+        }
+        else{
+            if(player == 'X')
+                winner = "Player 1";
+            else
+                winner = "Player 2";
+            ui->playerPrompt->setText(QString("%1 has won the game!").arg(winner));
+        }
+    }
+
+
+    //false if none are true
+    return false;
+}
+
 // Boolean function used to determine if the board is full, used to determine the case of a draw
 bool boardwindow::boardFull()
 {
@@ -782,6 +879,69 @@ bool boardwindow::boardFull()
 
     return(full);
 }
+
+/*
+-----------------------------------------------------------------------------------------------------------
+    goFirst and goSecond are used in vsCPU to determine the play order
+-----------------------------------------------------------------------------------------------------------
+*/
+// Starting a game where the Player moves first
+void boardwindow::on_goFirst_clicked()
+{
+    hideChoices();
+    showPlayArea();
+
+    game.player = 'X';
+    game.cpu = 'O';
+
+    playerTurn();
+}
+
+// Starting a game where the CPU moves first
+void boardwindow::on_goSecond_clicked()
+{
+    hideChoices();
+    showPlayArea();
+
+    game.player = 'O';
+    game.cpu = 'X';
+
+    cpuTurn();
+}
+
+/*
+-----------------------------------------------------------------------------------------------------------
+    replayConfirm or replayDeny used for the player to determine if they want to play the chosen mode again
+-----------------------------------------------------------------------------------------------------------
+*/
+// Button definition to replay the same difficulty once the game is complete
+void boardwindow::on_replayConfirm_clicked()
+{
+    clearBoardUI();
+
+    if(gameMode == "MULTIPLAYER"){
+        hideChoices();
+        showPlayArea();
+        mpTurn();
+    }
+    else
+        showChoices();
+}
+
+// Button definition to exit to the main menu once the game is complete
+void boardwindow::on_replayDeny_clicked()
+{
+    this->hide();
+    emit backToMenu();
+}
+
+
+/*
+-----------------------------------------------------------------------------------------------------------
+    Functions that are used to determine if the player is leaving the game
+    If they are leaving the game are they exiting to the main menu or closing the program
+-----------------------------------------------------------------------------------------------------------
+*/
 
 // Button that will allow the user to proceed with or cancel exiting the game
 void boardwindow::on_gameExitButton_clicked()

@@ -12,6 +12,7 @@ struct gameState {
     bool playerTurn = false;
     bool cpuTurn = false;
     bool won = false;
+    std::string mode = " ";
 };
 
 namespace Ui {
@@ -29,6 +30,7 @@ public:
     void showChoices();
     void hidePlayArea();
     void mpTurn();
+    void setGameMode();
 
 private slots:
 

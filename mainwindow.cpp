@@ -3,6 +3,7 @@
 #include "tictactoeFuncs.cpp"
 #include <array>
 
+std::string gameMode;
 std::string difficulty;
 bool settingsClicked = false, playClicked = false;
 array<array<char, 3>,3> board = {{}};
@@ -114,35 +115,37 @@ void MainWindow::on_backButtonCPUselect_clicked()
 
 void MainWindow::on_twoPlayerButton_clicked()
 {
+    gameMode = "MULTIPLAYER";
     showBoard();
     boardWindow->clearBoardUI();
-    boardWindow->mpTurn();
+    boardWindow->setGameMode();
 }
 
 
 void MainWindow::on_playEasyCPUButton_clicked()
 {
+    gameMode = "CPU";
     difficulty = "Easy";
     showBoard();
     boardWindow->clearBoardUI();
-    boardWindow->showChoices();
+    boardWindow->setGameMode();
 }
-
 
 void MainWindow::on_playMediumCPUButton_clicked()
 {
+    gameMode = "CPU";
     difficulty = "Medium";
     showBoard();
     boardWindow->clearBoardUI();
-    boardWindow->showChoices();
+    boardWindow->setGameMode();
 }
 
 
 void MainWindow::on_playHardCPUButton_clicked()
 {
+    gameMode = "CPU";
     difficulty = "Hard";
     showBoard();
     boardWindow->clearBoardUI();
-    boardWindow->showChoices();
-
+    boardWindow->setGameMode();
 }
