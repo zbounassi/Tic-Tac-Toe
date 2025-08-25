@@ -4,6 +4,12 @@
 #include <QWidget>
 #include <array>
 
+/*
+    All functions are in the same order that they appear in
+    boardwindow.cpp. The functions in the public area are split from
+    the rest. Those in the private area have line breaks to show where
+    the functions are separted into blocks in the .cpp file.
+*/
 struct gameState {
     char player;
     char cpu;
@@ -26,20 +32,22 @@ class boardwindow : public QWidget
 public:
     explicit boardwindow(QWidget *parent = nullptr);
     ~boardwindow();
-    void clearBoardUI();
+    void setGameMode();
     void showChoices();
+    void clearBoardUI();
     void hidePlayArea();
     void mpTurn();
-    void setGameMode();
 
 private slots:
 
     void hideChoices();
     void showPlayArea();
+    void resetBoxes();
+    void setArea(int);
 
-    bool legalMoveCheck(int pos);
-    std::string getPlayer();
-
+    void playerTurn();
+    int getDifficulty();
+    void cpuTurn();
     void on_area1_clicked();
     void on_area2_clicked();
     void on_area3_clicked();
@@ -49,26 +57,24 @@ private slots:
     void on_area7_clicked();
     void on_area8_clicked();
     void on_area9_clicked();
+    bool legalMoveCheck(int pos);
 
-    void on_gameExitConfirm_clicked();
-    void on_gameExitDeny_clicked();
-    void on_gameExitButton_clicked();
-    void on_closeProgram_clicked();
-    void on_menuExit_clicked();
+    void endGame();
+    std::string getPlayer();
+    bool checkWinner();
+    bool boardFull();
+
     void on_goFirst_clicked();
     void on_goSecond_clicked();
+
     void on_replayConfirm_clicked();
-
-    void setArea(int);
-    void endGame();
-    void playerTurn();
-    int getDifficulty();
-    void cpuTurn();
-
-    bool checkWinner();
-    void resetBoxes();
-    bool boardFull();
     void on_replayDeny_clicked();
+
+    void on_gameExitButton_clicked();
+    void on_gameExitConfirm_clicked();
+    void on_gameExitDeny_clicked();
+    void on_closeProgram_clicked();
+    void on_menuExit_clicked();
 
 signals:
     void backToMenu();

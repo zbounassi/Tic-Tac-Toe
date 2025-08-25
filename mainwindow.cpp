@@ -29,6 +29,7 @@ MainWindow::~MainWindow()
     if(boardWindow) delete boardWindow;
 }
 
+// Function that when called will hide the main menu and display the playing board
 void MainWindow::showBoard(){
 
     if(!boardWindow){
@@ -41,6 +42,11 @@ void MainWindow::showBoard(){
     this->hide();
 }
 
+/*
+    Main Menu Buttons
+*/
+
+// Button that when pressed will display 2 player or vsCPU options
 void MainWindow::on_playButton_clicked()
 {
     ui->twoPlayerButton->setHidden(false);
@@ -54,7 +60,7 @@ void MainWindow::on_playButton_clicked()
     playClicked = true;
 }
 
-
+// Button that when pressed will display settings available to the user
 void MainWindow::on_settingsButton_clicked()
 {
     ui->playButton->setHidden(true);
@@ -66,6 +72,16 @@ void MainWindow::on_settingsButton_clicked()
     settingsClicked = true;
 }
 
+// Button that when pressed will close the program
+void MainWindow::on_exitButton_clicked()
+{
+    close();
+}
+
+/*
+    Play and Settings back button
+*/
+// Button that when pressed will leave the game select screen and show the main menu
 void MainWindow::on_backButtonMenu_clicked()
 {
     ui->playButton->setHidden(false);
@@ -86,11 +102,12 @@ void MainWindow::on_backButtonMenu_clicked()
     }
 }
 
-void MainWindow::on_exitButton_clicked()
-{
-    close();
-}
 
+/*
+    vsCPU button choices and back display
+*/
+
+// Button that when pressed will display the three available options of vsCPU games
 void MainWindow::on_vsCPUButton_clicked()
 {
     ui->playEasyCPUButton->setHidden(false);
@@ -102,6 +119,7 @@ void MainWindow::on_vsCPUButton_clicked()
     ui->backButtonMenu->setHidden(true);
 }
 
+// Button that will back out from having chosen to play vsCPU games
 void MainWindow::on_backButtonCPUselect_clicked()
 {
     ui->playEasyCPUButton->setHidden(true);
@@ -113,6 +131,12 @@ void MainWindow::on_backButtonCPUselect_clicked()
     ui->backButtonMenu->setHidden(false);
 }
 
+
+/*
+    Buttons that will start one of the four game types of tic-tac-toe
+*/
+
+// Button definition that will start a two player game
 void MainWindow::on_twoPlayerButton_clicked()
 {
     gameMode = "MULTIPLAYER";
@@ -121,7 +145,7 @@ void MainWindow::on_twoPlayerButton_clicked()
     boardWindow->setGameMode();
 }
 
-
+// Button definition that will start a vsCPU game on easy difficulty
 void MainWindow::on_playEasyCPUButton_clicked()
 {
     gameMode = "CPU";
@@ -131,6 +155,7 @@ void MainWindow::on_playEasyCPUButton_clicked()
     boardWindow->setGameMode();
 }
 
+// Button definition that will start a vsCPU game on medium difficulty
 void MainWindow::on_playMediumCPUButton_clicked()
 {
     gameMode = "CPU";
@@ -140,7 +165,7 @@ void MainWindow::on_playMediumCPUButton_clicked()
     boardWindow->setGameMode();
 }
 
-
+// Button definition that will start a vsCPU game on hard difficulty
 void MainWindow::on_playHardCPUButton_clicked()
 {
     gameMode = "CPU";

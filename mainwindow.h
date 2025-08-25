@@ -4,6 +4,12 @@
 #include "boardwindow.h"
 #include <QMainWindow>
 
+/*
+    All functions are in the same order that they appear in
+    mainwindow.cpp. There are line breaks to show where
+    the functions are separted into blocks in the .cpp file.
+*/
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -21,26 +27,19 @@ public:
 private slots:
     void showBoard();
 
-    void on_twoPlayerButton_clicked();
-
-    void on_playEasyCPUButton_clicked();
-
-    void on_playMediumCPUButton_clicked();
-
-    void on_playHardCPUButton_clicked();
-
     void on_playButton_clicked();
-
     void on_settingsButton_clicked();
-
     void on_exitButton_clicked();
 
     void on_backButtonMenu_clicked();
 
     void on_vsCPUButton_clicked();
-
     void on_backButtonCPUselect_clicked();
 
+    void on_twoPlayerButton_clicked();
+    void on_playEasyCPUButton_clicked();
+    void on_playMediumCPUButton_clicked();
+    void on_playHardCPUButton_clicked();
 
 private:
     Ui::MainWindow *ui;
