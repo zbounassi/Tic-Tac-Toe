@@ -23,6 +23,10 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void resetMenu();
+
+protected:
+    void resizeEvent(QResizeEvent *event) override;
 
 private slots:
     void showBoard();
@@ -40,6 +44,18 @@ private slots:
     void on_playEasyCPUButton_clicked();
     void on_playMediumCPUButton_clicked();
     void on_playHardCPUButton_clicked();
+
+    void resizeSelected();
+    void on_fullscreenBox_clicked();
+
+    void on_darkMode_clicked();
+    void on_lightMode_clicked();
+
+    void on_res800_clicked();
+    void on_res1280_clicked();
+    void on_res1920_clicked();
+
+    void recenterButtons();
 
 private:
     Ui::MainWindow *ui;

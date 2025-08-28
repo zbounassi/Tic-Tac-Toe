@@ -38,6 +38,9 @@ public:
     void hidePlayArea();
     void mpTurn();
 
+protected:
+    // void resizeEvent(QResizeEvent *event) override;
+
 private slots:
 
     void hideChoices();
@@ -75,6 +78,16 @@ private slots:
     void on_gameExitDeny_clicked();
     void on_closeProgram_clicked();
     void on_menuExit_clicked();
+
+    // void centerBoard();
+    void showWinTracker();
+    void getPlayerNames();
+
+    void on_nameConfirm_clicked();
+
+    void on_performChange_clicked();
+    void on_doNotChange_clicked();
+    void changeSidesOffer();
 
 signals:
     void backToMenu();

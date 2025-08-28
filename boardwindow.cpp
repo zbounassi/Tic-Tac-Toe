@@ -7,6 +7,9 @@ using namespace std;
 extern string gameMode;
 extern string difficulty;
 string order;
+string p1Name, p2Name;
+
+int playerWins, cpuWins, p1Wins, p2Wins, draws;
 
 bool area1Played = false;
 bool area2Played = false;
@@ -47,9 +50,21 @@ boardwindow::boardwindow(QWidget *parent)
     ui->line3->setHidden(true);
     ui->line4->setHidden(true);
 
+    ui->winTracker->setHidden(true);
     ui->playAgainPrompt->setHidden(true);
     ui->replayConfirm->setHidden(true);
     ui->replayDeny->setHidden(true);
+
+    ui->nameAskLabel->setHidden(true);
+    ui->p1Prompt->setHidden(true);
+    ui->p1Entry->setHidden(true);
+    ui->p2Prompt->setHidden(true);
+    ui->p2Entry->setHidden(true);
+    ui->nameConfirm->setHidden(true);
+
+    ui->changeSides->setHidden(true);
+    ui->performChange->setHidden(true);
+    ui->doNotChange->setHidden(true);
 }
 
 boardwindow::~boardwindow()
@@ -68,8 +83,7 @@ void boardwindow::setGameMode()
 {
     if(gameMode == "MULTIPLAYER"){
         hideChoices();
-        showPlayArea();
-        mpTurn();
+        getPlayerNames();
     }
     else
         showChoices();
@@ -80,6 +94,10 @@ void boardwindow::hideChoices()
 {
     ui->goFirst->setHidden(true);
     ui->goSecond->setHidden(true);
+
+    ui->changeSides->setHidden(true);
+    ui->performChange->setHidden(true);
+    ui->doNotChange->setHidden(true);
 }
 
 // Function used to prompt the player if they would like to go first or second
@@ -185,8 +203,6 @@ void boardwindow::resetBoxes()
 -----------------------------------------------------------------------------------------------------------
 */
 
-
-
 // Function used to perform multiplayer turns
 void boardwindow::mpTurn(){
     checkWinner();
@@ -201,7 +217,7 @@ void boardwindow::mpTurn(){
         game.player = 'O';
     game.currentPlayer = game.player;
 
-    ui->playerPrompt->setText(QString("Player %1 make your move:").arg(game.player == 'X' ? 1 : 2));
+    ui->playerPrompt->setText(QString("%1 please make your move:").arg(game.player == 'X' ? p1Name : p2Name));
 }
 
 // Function called to perform the player's turn
@@ -264,10 +280,6 @@ void boardwindow::cpuTurn(){
     setArea(position);
 
     game.turn++;
-
-    if(game.turn >= 5)
-        checkWinner();
-
 }
 
 // Area 1 (Top Left) of the board will be set to the player's character
@@ -292,8 +304,6 @@ void boardwindow::on_area1_clicked()
             game.turn++;
             mpTurn();
         }
-        else
-            endGame();
     }
     else{
         if(game.turn > 4){
@@ -301,8 +311,6 @@ void boardwindow::on_area1_clicked()
                 game.turn++;
                 cpuTurn();
             }
-            else
-                endGame();
         }
         else{
             game.turn++;
@@ -333,8 +341,6 @@ void boardwindow::on_area2_clicked()
             game.turn++;
             mpTurn();
         }
-        else
-            endGame();
     }
     else{
         if(game.turn > 4){
@@ -342,8 +348,6 @@ void boardwindow::on_area2_clicked()
                 game.turn++;
                 cpuTurn();
             }
-            else
-                endGame();
         }
         else{
             game.turn++;
@@ -374,8 +378,6 @@ void boardwindow::on_area3_clicked()
             game.turn++;
             mpTurn();
         }
-        else
-            endGame();
     }
     else{
         if(game.turn > 4){
@@ -383,8 +385,6 @@ void boardwindow::on_area3_clicked()
                 game.turn++;
                 cpuTurn();
             }
-            else
-                endGame();
         }
         else{
             game.turn++;
@@ -416,8 +416,6 @@ void boardwindow::on_area4_clicked()
             game.turn++;
             mpTurn();
         }
-        else
-            endGame();
     }
     else{
         if(game.turn > 4){
@@ -425,8 +423,6 @@ void boardwindow::on_area4_clicked()
                 game.turn++;
                 cpuTurn();
             }
-            else
-                endGame();
         }
         else{
             game.turn++;
@@ -457,8 +453,6 @@ void boardwindow::on_area5_clicked()
             game.turn++;
             mpTurn();
         }
-        else
-            endGame();
     }
     else{
         if(game.turn > 4){
@@ -466,8 +460,6 @@ void boardwindow::on_area5_clicked()
                 game.turn++;
                 cpuTurn();
             }
-            else
-                endGame();
         }
         else{
             game.turn++;
@@ -498,8 +490,6 @@ void boardwindow::on_area6_clicked()
             game.turn++;
             mpTurn();
         }
-        else
-            endGame();
     }
     else{
         if(game.turn > 4){
@@ -507,8 +497,6 @@ void boardwindow::on_area6_clicked()
                 game.turn++;
                 cpuTurn();
             }
-            else
-                endGame();
         }
         else{
             game.turn++;
@@ -539,8 +527,6 @@ void boardwindow::on_area7_clicked()
             game.turn++;
             mpTurn();
         }
-        else
-            endGame();
     }
     else{
         if(game.turn > 4){
@@ -548,8 +534,6 @@ void boardwindow::on_area7_clicked()
                 game.turn++;
                 cpuTurn();
             }
-            else
-                endGame();
         }
         else{
             game.turn++;
@@ -580,8 +564,6 @@ void boardwindow::on_area8_clicked()
             game.turn++;
             mpTurn();
         }
-        else
-            endGame();
     }
     else{
         if(game.turn > 4){
@@ -589,8 +571,6 @@ void boardwindow::on_area8_clicked()
                 game.turn++;
                 cpuTurn();
             }
-            else
-                endGame();
         }
         else{
             game.turn++;
@@ -621,8 +601,6 @@ void boardwindow::on_area9_clicked()
             game.turn++;
             mpTurn();
         }
-        else
-            endGame();
     }
     else{
         if(game.turn > 4){
@@ -630,8 +608,6 @@ void boardwindow::on_area9_clicked()
                 game.turn++;
                 cpuTurn();
             }
-            else
-                endGame();
         }
         else{
             game.turn++;
@@ -653,10 +629,6 @@ void boardwindow::setArea(int pos){
 
             board[0][0] = game.cpu;
             area1Played = true;
-
-            cpuMoveMade = true;
-
-            playerTurn();
         }
         break;
     case 2:
@@ -668,10 +640,6 @@ void boardwindow::setArea(int pos){
 
             board[0][1] = game.cpu;
             area2Played = true;
-
-            cpuMoveMade = true;
-
-            playerTurn();
         }
         break;
     case 3:
@@ -683,10 +651,6 @@ void boardwindow::setArea(int pos){
 
             board[0][2] = game.cpu;
             area3Played = true;
-
-            cpuMoveMade = true;
-
-            playerTurn();
         }
         break;
     case 4:
@@ -699,9 +663,6 @@ void boardwindow::setArea(int pos){
             board[1][0] = game.cpu;
             area4Played = true;
 
-            cpuMoveMade = true;
-
-            playerTurn();
         }
         break;
     case 5:
@@ -713,10 +674,6 @@ void boardwindow::setArea(int pos){
 
             board[1][1] = game.cpu;
             area5Played = true;
-
-            cpuMoveMade = true;
-
-            playerTurn();
         }
         break;
     case 6:
@@ -728,10 +685,6 @@ void boardwindow::setArea(int pos){
 
             board[1][2] = game.cpu;
             area6Played = true;
-
-            cpuMoveMade = true;
-
-            playerTurn();
         }
         break;
     case 7:
@@ -743,10 +696,6 @@ void boardwindow::setArea(int pos){
 
             board[2][0] = game.cpu;
             area7Played = true;
-
-            cpuMoveMade = true;
-
-            playerTurn();
         }
         break;
     case 8:
@@ -758,10 +707,6 @@ void boardwindow::setArea(int pos){
 
             board[2][1] = game.cpu;
             area8Played = true;
-
-            cpuMoveMade = true;
-
-            playerTurn();
         }
         break;
     case 9:
@@ -773,13 +718,11 @@ void boardwindow::setArea(int pos){
 
             board[2][2] = game.cpu;
             area9Played = true;
-
-            cpuMoveMade = true;
-
-            playerTurn();
         }
         break;
     }
+    if(!checkWinner())
+        playerTurn();
 }
 
 // Boolean used for the CPU to check whether or not a move is legal
@@ -812,8 +755,10 @@ void boardwindow::endGame(){
     ui->replayConfirm->setHidden(false);
     ui->replayDeny->setHidden(false);
 
-    if(game.won == false)
+    if(game.won == false){
         ui->playerPrompt->setText("It's a draw!");
+        draws++;
+    }
     QString currentText = ui->playerPrompt->text();
     ui->playerPrompt->setText(currentText + "\nThe game is now over!");
 }
@@ -848,17 +793,27 @@ bool boardwindow::checkWinner(){
         game.won = true;
         if(gameMode == "CPU"){
             winner = getPlayer();
+            if(winner == "Player")
+                playerWins++;
+            else
+                cpuWins++;
             ui->playerPrompt->setText(QString("The %1 has won the game!").arg(winner));
         }
         else{
-            if(player == 'X')
-                winner = "Player 1";
-            else
-                winner = "Player 2";
+            if(player == 'X'){
+                winner = p1Name;
+                p1Wins++;
+            }
+            else{
+                winner = p2Name;
+                p2Wins++;
+            }
             ui->playerPrompt->setText(QString("%1 has won the game!").arg(winner));
         }
-    }
 
+        endGame();
+        return(true);
+    }
 
     //false if none are true
     return false;
@@ -918,12 +873,10 @@ void boardwindow::on_goSecond_clicked()
 void boardwindow::on_replayConfirm_clicked()
 {
     clearBoardUI();
+    showWinTracker();
 
-    if(gameMode == "MULTIPLAYER"){
-        hideChoices();
-        showPlayArea();
-        mpTurn();
-    }
+    if(gameMode == "MULTIPLAYER")
+        changeSidesOffer();
     else
         showChoices();
 }
@@ -1000,3 +953,94 @@ void boardwindow::on_menuExit_clicked()
     this->hide();
     emit backToMenu();
 }
+
+
+/*
+    Area to test out new functions and cleaner declarations
+    of the code. In an attempt to make it more readable, more
+    concise and efficient. These will stay removed from the rest
+    until they are completely functional within the program
+    and prove there are no unintended results.
+
+    Intermixing these functions can get them lost and lead to
+    errors that are not sure how to be sovled.
+*/
+
+// Function to display the current standings of wins and draws for the involved players
+void boardwindow::showWinTracker()
+{
+    if(gameMode == "CPU")
+        ui->winTracker->setText(QString("Wins this session:\nPlayer: %1\nCPU: %2\nDraws: %3").arg(playerWins).arg(cpuWins).arg(draws));
+    else
+        ui->winTracker->setText(QString("Wins this session:\n%1: %2\n%3: %4\nDraws: %5").arg(p1Name).arg(p1Wins).arg(p2Name).arg(p2Wins).arg(draws));
+
+    ui->winTracker->setHidden(false);
+}
+
+// Function to display the prompts for name entry
+void boardwindow::getPlayerNames()
+{
+    ui->nameAskLabel->setHidden(false);
+    ui->p1Prompt->setHidden(false);
+    ui->p1Entry->setHidden(false);
+    ui->p2Prompt->setHidden(false);
+    ui->p2Entry->setHidden(false);
+    ui->nameConfirm->setHidden(false);
+}
+
+/*
+    Function used to allow players to enter their own names in multiplayer
+    This allows for tracking of scores across multiple games
+    even when they elect to change sides between games
+*/
+void boardwindow::on_nameConfirm_clicked()
+{
+    ui->nameAskLabel->setHidden(true);
+    ui->p1Prompt->setHidden(true);
+    ui->p1Entry->setHidden(true);
+    ui->p2Prompt->setHidden(true);
+    ui->p2Entry->setHidden(true);
+    ui->nameConfirm->setHidden(true);
+
+    p1Name = (ui->p1Entry->toPlainText()).toStdString();
+    p2Name = (ui->p2Entry->toPlainText()).toStdString();
+
+    showPlayArea();
+    mpTurn();
+}
+
+void boardwindow::changeSidesOffer()
+{
+    ui->playAgainPrompt->setHidden(true);
+    ui->replayConfirm->setHidden(true);
+    ui->replayDeny->setHidden(true);
+
+    ui->changeSides->setHidden(false);
+    ui->performChange->setHidden(false);
+    ui->doNotChange->setHidden(false);
+}
+
+
+void boardwindow::on_doNotChange_clicked()
+{
+    hideChoices();
+    showPlayArea();
+    mpTurn();
+}
+
+
+void boardwindow::on_performChange_clicked()
+{
+    int holdWins = p2Wins;
+    p2Wins = p1Wins;
+    p1Wins = holdWins;
+
+    string holdName = p2Name;
+    p2Name = p1Name;
+    p1Name = holdName;
+
+    hideChoices();
+    showPlayArea();
+    mpTurn();
+}
+

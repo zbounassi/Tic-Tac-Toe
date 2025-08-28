@@ -23,6 +23,12 @@ FORMS += \
     boardwindow.ui \
     mainwindow.ui
 
+android {
+    assets.files = images/happy.png
+    assets.path = /assets/images/
+    INSTALLS += assets
+}
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
