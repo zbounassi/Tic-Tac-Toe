@@ -81,8 +81,9 @@ private slots:
 
     // void centerBoard();
     void showWinTracker();
-    void getPlayerNames();
+    void clearTrackers();
 
+    void getPlayerNames();
     void on_nameConfirm_clicked();
 
     void on_performChange_clicked();

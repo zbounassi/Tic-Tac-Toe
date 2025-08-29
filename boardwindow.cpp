@@ -884,6 +884,7 @@ void boardwindow::on_replayConfirm_clicked()
 // Button definition to exit to the main menu once the game is complete
 void boardwindow::on_replayDeny_clicked()
 {
+    clearTrackers();
     this->hide();
     emit backToMenu();
 }
@@ -950,6 +951,7 @@ void boardwindow::on_closeProgram_clicked()
 // Button that when pressed is used to exit to the main menu
 void boardwindow::on_menuExit_clicked()
 {
+    clearTrackers();
     this->hide();
     emit backToMenu();
 }
@@ -992,6 +994,14 @@ void boardwindow::getPlayerNames()
     Function used to allow players to enter their own names in multiplayer
     This allows for tracking of scores across multiple games
     even when they elect to change sides between games
+
+
+    8/28 - All of the below functions appear to be operational as intended.
+    Once comments are added they can be placed into the blocks that they appear
+    to most fit within.
+
+    One simple bug that is apparent is that the exit game menu does not reset
+    itself for when the user re-enters the game. Look into fixing that.
 */
 void boardwindow::on_nameConfirm_clicked()
 {
@@ -1044,3 +1054,12 @@ void boardwindow::on_performChange_clicked()
     mpTurn();
 }
 
+void boardwindow::clearTrackers()
+{
+    ui->winTracker->setHidden(true);
+    p1Wins = 0;
+    p2Wins = 0;
+    draws = 0;
+    cpuWins = 0;
+    playerWins = 0;
+}

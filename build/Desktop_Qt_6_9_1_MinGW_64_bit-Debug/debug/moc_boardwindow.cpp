@@ -74,6 +74,7 @@ template <> constexpr inline auto boardwindow::qt_create_metaobjectdata<qt_meta_
         "on_closeProgram_clicked",
         "on_menuExit_clicked",
         "showWinTracker",
+        "clearTrackers",
         "getPlayerNames",
         "on_nameConfirm_clicked",
         "on_performChange_clicked",
@@ -150,16 +151,18 @@ template <> constexpr inline auto boardwindow::qt_create_metaobjectdata<qt_meta_
         QtMocHelpers::SlotData<void()>(34, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'showWinTracker'
         QtMocHelpers::SlotData<void()>(35, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'getPlayerNames'
+        // Slot 'clearTrackers'
         QtMocHelpers::SlotData<void()>(36, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_nameConfirm_clicked'
+        // Slot 'getPlayerNames'
         QtMocHelpers::SlotData<void()>(37, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_performChange_clicked'
+        // Slot 'on_nameConfirm_clicked'
         QtMocHelpers::SlotData<void()>(38, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_doNotChange_clicked'
+        // Slot 'on_performChange_clicked'
         QtMocHelpers::SlotData<void()>(39, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'changeSidesOffer'
+        // Slot 'on_doNotChange_clicked'
         QtMocHelpers::SlotData<void()>(40, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'changeSidesOffer'
+        QtMocHelpers::SlotData<void()>(41, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -220,11 +223,12 @@ void boardwindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 29: _t->on_closeProgram_clicked(); break;
         case 30: _t->on_menuExit_clicked(); break;
         case 31: _t->showWinTracker(); break;
-        case 32: _t->getPlayerNames(); break;
-        case 33: _t->on_nameConfirm_clicked(); break;
-        case 34: _t->on_performChange_clicked(); break;
-        case 35: _t->on_doNotChange_clicked(); break;
-        case 36: _t->changeSidesOffer(); break;
+        case 32: _t->clearTrackers(); break;
+        case 33: _t->getPlayerNames(); break;
+        case 34: _t->on_nameConfirm_clicked(); break;
+        case 35: _t->on_performChange_clicked(); break;
+        case 36: _t->on_doNotChange_clicked(); break;
+        case 37: _t->changeSidesOffer(); break;
         default: ;
         }
     }
@@ -253,14 +257,14 @@ int boardwindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 37)
+        if (_id < 38)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 37;
+        _id -= 38;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 37)
+        if (_id < 38)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 37;
+        _id -= 38;
     }
     return _id;
 }
