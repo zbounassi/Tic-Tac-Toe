@@ -58,7 +58,13 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         "on_res800_clicked",
         "on_res1280_clicked",
         "on_res1920_clicked",
-        "recenterButtons"
+        "repositionButtons",
+        "repositionMenuButtons",
+        "repositionPlayButtons",
+        "repositionSettingsButtons",
+        "on_resolutionSettings_clicked",
+        "on_themeSelect_clicked",
+        "on_trackerBox_clicked"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -98,8 +104,20 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         QtMocHelpers::SlotData<void()>(18, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'on_res1920_clicked'
         QtMocHelpers::SlotData<void()>(19, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'recenterButtons'
+        // Slot 'repositionButtons'
         QtMocHelpers::SlotData<void()>(20, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'repositionMenuButtons'
+        QtMocHelpers::SlotData<void()>(21, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'repositionPlayButtons'
+        QtMocHelpers::SlotData<void()>(22, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'repositionSettingsButtons'
+        QtMocHelpers::SlotData<void()>(23, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'on_resolutionSettings_clicked'
+        QtMocHelpers::SlotData<void()>(24, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'on_themeSelect_clicked'
+        QtMocHelpers::SlotData<void()>(25, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'on_trackerBox_clicked'
+        QtMocHelpers::SlotData<void()>(26, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -141,7 +159,13 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 15: _t->on_res800_clicked(); break;
         case 16: _t->on_res1280_clicked(); break;
         case 17: _t->on_res1920_clicked(); break;
-        case 18: _t->recenterButtons(); break;
+        case 18: _t->repositionButtons(); break;
+        case 19: _t->repositionMenuButtons(); break;
+        case 20: _t->repositionPlayButtons(); break;
+        case 21: _t->repositionSettingsButtons(); break;
+        case 22: _t->on_resolutionSettings_clicked(); break;
+        case 23: _t->on_themeSelect_clicked(); break;
+        case 24: _t->on_trackerBox_clicked(); break;
         default: ;
         }
     }
@@ -167,14 +191,14 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 19)
+        if (_id < 25)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 19;
+        _id -= 25;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 19)
+        if (_id < 25)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 19;
+        _id -= 25;
     }
     return _id;
 }

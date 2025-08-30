@@ -13,7 +13,7 @@
 int res;
 std::string gameMode;
 std::string difficulty;
-bool settingsClicked = false, playClicked = false;
+bool settingsClicked = false, playClicked = false, displayTracker = false;
 array<array<char, 3>,3> board = {{}};
 
 MainWindow::MainWindow(QWidget *parent)
@@ -30,17 +30,18 @@ MainWindow::MainWindow(QWidget *parent)
     ui->backButtonMenu->setHidden(true);
     ui->backButtonCPUselect->setHidden(true);
 
-    QScreen *screen = QGuiApplication::primaryScreen();
-    QRect screenGeometry = screen->availableGeometry();
+    ui->fullscreenBox->setHidden(true);
+    ui->fullscreenText->setHidden(true);
+    ui->resolutionSettings->setHidden(true);
+    ui->res800->setHidden(true);
+    ui->res1280->setHidden(true);
+    ui->res1920->setHidden(true);
+    ui->themeSelect->setHidden(true);
+    ui->darkMode->setHidden(true);
+    ui->lightMode->setHidden(true);
+    ui->trackerBox->setHidden(true);
+    ui->trackerText->setHidden(true);
 
-    this->setGeometry(
-        QStyle::alignedRect(
-            Qt::LeftToRight,
-            Qt::AlignCenter,
-            this->size(),
-            screenGeometry
-        )
-    );
 }
 
 
@@ -105,10 +106,19 @@ void MainWindow::on_settingsButton_clicked()
     ui->playButton->setHidden(true);
     ui->settingsButton->setHidden(true);
     ui->exitButton->setHidden(true);
+    ui->titleText->setHidden(true);
 
     ui->backButtonMenu->setHidden(false);
 
     settingsClicked = true;
+
+    ui->fullscreenBox->setHidden(false);
+    ui->fullscreenText->setHidden(false);
+    ui->resolutionSettings->setHidden(false);
+    ui->themeSelect->setHidden(false);
+    ui->trackerBox->setHidden(false);
+    ui->trackerText->setHidden(false);
+
 }
 
 // Button that when pressed will close the program
@@ -136,11 +146,24 @@ void MainWindow::on_backButtonMenu_clicked()
     }
     if(settingsClicked == true)
     {
+        ui->titleText->setHidden(false);
+
+        ui->fullscreenBox->setHidden(true);
+        ui->fullscreenText->setHidden(true);
+        ui->resolutionSettings->setHidden(true);
+        ui->res800->setHidden(true);
+        ui->res1280->setHidden(true);
+        ui->res1920->setHidden(true);
+        ui->themeSelect->setHidden(true);
+        ui->darkMode->setHidden(true);
+        ui->lightMode->setHidden(true);
+        ui->trackerBox->setHidden(true);
+        ui->trackerText->setHidden(true);
+
         ui->backButtonMenu->setHidden(true);
         settingsClicked = false;
     }
 }
-
 
 /*
     vsCPU button choices and back display
@@ -149,15 +172,6 @@ void MainWindow::on_backButtonMenu_clicked()
 // Button that when pressed will display the three available options of vsCPU games
 void MainWindow::on_vsCPUButton_clicked()
 {
-    QPoint pos = ui->playButton->pos();
-
-    int x = pos.x();
-    int y = pos.y();
-
-    ui->playEasyCPUButton->move(x + 60, y - 40);
-    ui->playMediumCPUButton->move(x + 60, y);
-    ui->playHardCPUButton->move(x + 60, y + 80);
-
     ui->playEasyCPUButton->setHidden(false);
     ui->playMediumCPUButton->setHidden(false);
     ui->playHardCPUButton->setHidden(false);
@@ -230,21 +244,30 @@ void MainWindow::on_playHardCPUButton_clicked()
     the resolution of the screen is being adjusted
 */
 
+/*
+    Recieves input from the selected resolution option to resize the screen
+    The largest resolution will move the window to the corner so that no
+    portion of the screen is cutoff in the resize
+*/
 void MainWindow::resizeSelected()
 {
     if(res == 800)
         this->resize(800, 600);
     else if(res == 1280)
         this->resize(1280, 720);
-    else
-        this->resize(1920, 1080);
+    else{
+        this->resize(1920, 1000);
+        this->move(0,0);
+    }
 }
 
-// If the boolean returns true, it should be fullscreen
-// If the boolean is false it should be the chosen window size
+/*
+    If the boolean returns true, it should be fullscreen
+    If the boolean is false it should be the chosen window size
 
-// In order to implement this I need to find the command to set the
-// window to a chosen size, starting with the command to go/remove fullscreen
+    In order to implement this I need to find the command to set the
+    window to a chosen size, starting with the command to go/remove fullscreen
+*/
 void MainWindow::on_fullscreenBox_clicked()
 {
     if(ui->fullscreenBox->isChecked() == true)
@@ -256,19 +279,19 @@ void MainWindow::on_fullscreenBox_clicked()
     this->show();
 }
 
-
+// Button to change to a darkMode theme
 void MainWindow::on_darkMode_clicked()
 {
 
 }
 
-
+// Button to change to a lightMode theme
 void MainWindow::on_lightMode_clicked()
 {
 
 }
 
-
+// Button that will change the resolution to 800x600 (if not already done)
 void MainWindow::on_res800_clicked()
 {
     if(res != 800)
@@ -277,7 +300,7 @@ void MainWindow::on_res800_clicked()
         this->resizeSelected();
 }
 
-
+// Button that will change the resolution to 1280*720 (if not already done)
 void MainWindow::on_res1280_clicked()
 {
     if(res != 1280)
@@ -286,7 +309,8 @@ void MainWindow::on_res1280_clicked()
         this->resizeSelected();
 }
 
-
+// Button that will change the resolution to 1920*1000 (if not already done)
+// 1000 is done in place of 1080 to account for the taskbar cutting off part of the window
 void MainWindow::on_res1920_clicked()
 {
     if(res != 1920)
@@ -296,28 +320,136 @@ void MainWindow::on_res1920_clicked()
         this->resizeSelected();
 }
 
+// Overriden definition of resizeEvent to allow for the movement of buttons when the window resizes
 void MainWindow::resizeEvent(QResizeEvent *event){
     QMainWindow::resizeEvent(event);
 
-    recenterButtons();
+    repositionButtons();
 }
 
-void MainWindow::recenterButtons()
+// Function definition that will ensure all buttons are in their intended location regardless of the resolution choice
+void MainWindow::repositionButtons()
 {
+    repositionMenuButtons();
+    repositionPlayButtons();
+    repositionSettingsButtons();
+}
 
+void MainWindow::repositionMenuButtons()
+{
     int x = (this->width() - ui->titleText->width()) / 2;
     int y = (this->height() - ui->titleText->height()) / 2;
 
     int centering = ui->titleText->width() / 3 + 15;
     int heightDrop = ui->titleText->height();
 
-    ui->titleText->move(x, y);
-    ui->playButton->move(x + centering, y + heightDrop + 20);
-    ui->settingsButton->move(x + centering, y + (heightDrop * 2 - 10));
-    ui->exitButton->move(x + centering, y + (heightDrop * 5 / 2));
+    ui->titleText->move(x, y - (heightDrop/2));
 
+    if(y <= 800){
+        ui->playButton->move(x+centering, y + (heightDrop/2));
+        ui->settingsButton->move(x+ centering, y + heightDrop);
+        ui->exitButton->move(x+centering, y + (3 * heightDrop / 2));
+    }
+    else {
+        ui->playButton->move(x + centering, y + heightDrop);
+        ui->settingsButton->move(x + centering, y + (3*heightDrop/2));
+        ui->exitButton->move(x + centering, y + (2*heightDrop));
+    }
+}
+
+void MainWindow::repositionPlayButtons()
+{
     ui->backButtonCPUselect->move(ui->exitButton->pos());
     ui->backButtonMenu->move(ui->exitButton->pos());
     ui->twoPlayerButton->move(ui->playButton->pos());
     ui->vsCPUButton->move(ui->settingsButton->pos());
+
+    QPoint pos = ui->twoPlayerButton->pos();
+    int spacing = (ui->vsCPUButton->width()) * 2;
+
+    ui->playEasyCPUButton->move(pos.x() + spacing, pos.y());
+
+    pos = ui->vsCPUButton->pos();
+
+    ui->playMediumCPUButton->move(pos.x() + spacing, pos.y());
+
+    pos = ui->backButtonCPUselect->pos();
+
+    ui->playHardCPUButton->move(pos.x() + spacing, pos.y());
 }
+
+void MainWindow::repositionSettingsButtons()
+{
+    int x = (this->width() / 12);
+    int y = (this->height() / 8);
+
+    int spacing = ui->fullscreenText->width();
+    int boxHt = (ui->fullscreenBox->height()/2);
+
+    ui->fullscreenText->move(x, y - boxHt);
+    ui->fullscreenBox->move(x + spacing + 10, y);
+
+    ui->resolutionSettings->move(x, y * 2);
+    ui->themeSelect->move(x, y * 3);
+
+    spacing = ui->fullscreenText->width();
+    boxHt = (ui->fullscreenBox->height() / 2);
+
+    ui->trackerText->move(x, y * 4 - boxHt);
+    ui->trackerBox->move(x + spacing + 75, y*4);
+
+    spacing = ui->resolutionSettings->width() + 20;
+
+    ui->res800->move(2 * x + spacing, y * 2);
+    ui->res1280->move(3 * x + spacing, y * 2);
+    ui->res1920->move(4 * x + spacing, y * 2);
+
+    ui->darkMode->move(2 * x + spacing, y * 3);
+    ui->lightMode->move(3 * x + spacing, y * 3);
+
+}
+
+void MainWindow::on_resolutionSettings_clicked()
+{
+    if(ui->res800->isHidden()){
+        ui->res800->setHidden(false);
+        ui->res1280->setHidden(false);
+        ui->res1920->setHidden(false);
+    }
+    else{
+        ui->res800->setHidden(true);
+        ui->res1280->setHidden(true);
+        ui->res1920->setHidden(true);
+    }
+    ui->darkMode->setHidden(true);
+    ui->lightMode->setHidden(true);
+}
+
+
+
+
+void MainWindow::on_themeSelect_clicked()
+{
+    if(ui->darkMode->isHidden()){
+        ui->darkMode->setHidden(false);
+        ui->lightMode->setHidden(false);
+    }
+    else{
+        ui->darkMode->setHidden(true);
+        ui->lightMode->setHidden(true);
+    }
+
+    ui->res800->setHidden(true);
+    ui->res1280->setHidden(true);
+    ui->res1920->setHidden(true);
+}
+
+
+void MainWindow::on_trackerBox_clicked()
+{
+    if(ui->trackerBox->isChecked() == true)
+        displayTracker = true;
+    else
+        displayTracker = false;
+}
+

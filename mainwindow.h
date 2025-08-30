@@ -55,7 +55,16 @@ private slots:
     void on_res1280_clicked();
     void on_res1920_clicked();
 
-    void recenterButtons();
+    void repositionButtons();
+    void repositionMenuButtons();
+    void repositionPlayButtons();
+    void repositionSettingsButtons();
+
+    void on_resolutionSettings_clicked();
+
+    void on_themeSelect_clicked();
+
+    void on_trackerBox_clicked();
 
 private:
     Ui::MainWindow *ui;

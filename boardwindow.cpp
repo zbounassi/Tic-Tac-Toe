@@ -6,6 +6,7 @@ using namespace std;
 
 extern string gameMode;
 extern string difficulty;
+extern bool displayTracker;
 string order;
 string p1Name, p2Name;
 
@@ -873,7 +874,8 @@ void boardwindow::on_goSecond_clicked()
 void boardwindow::on_replayConfirm_clicked()
 {
     clearBoardUI();
-    showWinTracker();
+    if(displayTracker == true)
+        showWinTracker();
 
     if(gameMode == "MULTIPLAYER")
         changeSidesOffer();

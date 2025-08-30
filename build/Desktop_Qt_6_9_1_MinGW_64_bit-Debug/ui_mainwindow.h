@@ -41,9 +41,11 @@ public:
     QPushButton *res800;
     QPushButton *res1280;
     QPushButton *res1920;
-    QPushButton *pushButton;
+    QPushButton *themeSelect;
     QPushButton *darkMode;
     QPushButton *lightMode;
+    QTextBrowser *trackerText;
+    QCheckBox *trackerBox;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -111,15 +113,21 @@ public:
         res1920 = new QPushButton(mainMenu);
         res1920->setObjectName("res1920");
         res1920->setGeometry(QRect(370, 270, 80, 24));
-        pushButton = new QPushButton(mainMenu);
-        pushButton->setObjectName("pushButton");
-        pushButton->setGeometry(QRect(210, 240, 121, 24));
+        themeSelect = new QPushButton(mainMenu);
+        themeSelect->setObjectName("themeSelect");
+        themeSelect->setGeometry(QRect(210, 240, 121, 24));
         darkMode = new QPushButton(mainMenu);
         darkMode->setObjectName("darkMode");
         darkMode->setGeometry(QRect(370, 320, 101, 24));
         lightMode = new QPushButton(mainMenu);
         lightMode->setObjectName("lightMode");
         lightMode->setGeometry(QRect(370, 360, 101, 24));
+        trackerText = new QTextBrowser(mainMenu);
+        trackerText->setObjectName("trackerText");
+        trackerText->setGeometry(QRect(290, 280, 361, 51));
+        trackerBox = new QCheckBox(mainMenu);
+        trackerBox->setObjectName("trackerBox");
+        trackerBox->setGeometry(QRect(250, 300, 76, 21));
         MainWindow->setCentralWidget(mainMenu);
 
         retranslateUi(MainWindow);
@@ -155,9 +163,21 @@ public:
         res800->setText(QCoreApplication::translate("MainWindow", "800x600", nullptr));
         res1280->setText(QCoreApplication::translate("MainWindow", "1280x720", nullptr));
         res1920->setText(QCoreApplication::translate("MainWindow", "1920x1080", nullptr));
-        pushButton->setText(QCoreApplication::translate("MainWindow", "Change Theme", nullptr));
+        themeSelect->setText(QCoreApplication::translate("MainWindow", "Change Theme", nullptr));
         darkMode->setText(QCoreApplication::translate("MainWindow", "Dark Mode", nullptr));
         lightMode->setText(QCoreApplication::translate("MainWindow", "Light Mode", nullptr));
+        trackerText->setHtml(QCoreApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">Tracker</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">Toggle the display of the win tracker for the current play session</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-bl"
+                        "ock-indent:0; text-indent:0px; font-size:8pt;\"><br /></p></body></html>", nullptr));
+        trackerBox->setText(QString());
     } // retranslateUi
 
 };
