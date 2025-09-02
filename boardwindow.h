@@ -93,6 +93,8 @@ private slots:
     void changeSidesOffer();
 
 
+    void resizeSelected();
+
 signals:
     void backToMenu();
 

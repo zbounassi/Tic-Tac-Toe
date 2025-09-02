@@ -252,7 +252,6 @@ void MainWindow::on_playHardCPUButton_clicked()
 */
 void MainWindow::resizeSelected()
 {
-
     QRect screenGeo = this->screen()->availableGeometry();
 
     int x, y;

@@ -83,7 +83,8 @@ template <> constexpr inline auto boardwindow::qt_create_metaobjectdata<qt_meta_
         "on_nameConfirm_clicked",
         "on_performChange_clicked",
         "on_doNotChange_clicked",
-        "changeSidesOffer"
+        "changeSidesOffer",
+        "resizeSelected"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -173,6 +174,8 @@ template <> constexpr inline auto boardwindow::qt_create_metaobjectdata<qt_meta_
         QtMocHelpers::SlotData<void()>(44, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'changeSidesOffer'
         QtMocHelpers::SlotData<void()>(45, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'resizeSelected'
+        QtMocHelpers::SlotData<void()>(46, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -241,6 +244,7 @@ void boardwindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 37: _t->on_performChange_clicked(); break;
         case 38: _t->on_doNotChange_clicked(); break;
         case 39: _t->changeSidesOffer(); break;
+        case 40: _t->resizeSelected(); break;
         default: ;
         }
     }
@@ -269,14 +273,14 @@ int boardwindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 40)
+        if (_id < 41)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 40;
+        _id -= 41;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 40)
+        if (_id < 41)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 40;
+        _id -= 41;
     }
     return _id;
 }

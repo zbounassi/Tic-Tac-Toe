@@ -30,6 +30,8 @@ boardwindow::boardwindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    resizeSelected();
+
     centerBoard();
 
     if(enableFullscreen)
@@ -1101,10 +1103,18 @@ void boardwindow::resizeEvent(QResizeEvent *event)
 {
     QWidget::resizeEvent(event);
 
-    res = this->width();
-
     centerBoard();
 }
 
-
-
+// Function to have default window size the same as selected in the main menu
+void boardwindow::resizeSelected()
+{
+    if(res == 800)
+        this->resize(800, 600);
+    else if(res == 1280)
+        this->resize(1280, 720);
+    else if(res == 1920){
+        this->resize(1920, 1000);
+        this->move(0,0);
+    }
+}
