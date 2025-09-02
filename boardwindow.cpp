@@ -1,9 +1,10 @@
 #include "boardwindow.h"
 #include "ui_boardwindow.h"
-#include "mainwindow.h"
 #include "tictactoeFuncs.h"
 using namespace std;
 
+extern int res;
+extern bool enableFullscreen;
 extern string gameMode;
 extern string difficulty;
 extern bool displayTracker;
@@ -29,11 +30,15 @@ boardwindow::boardwindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    centerBoard();
+
+    if(enableFullscreen)
+        this->showFullScreen();
+
     ui->gameExitConfirm->setHidden(true);
     ui->gameExitDeny->setHidden(true);
-    ui->exitPrompt->setHidden(true);
-    ui->exitPromptMenu->setHidden(true);
-    ui->menuExit->setHidden(true);
+    ui->exitMenuOrClose->setHidden(true);
+    ui->exitToMenu->setHidden(true);
     ui->closeProgram->setHidden(true);
 
     ui->area1->setHidden(true);
@@ -902,23 +907,24 @@ void boardwindow::on_replayDeny_clicked()
 // Button that will allow the user to proceed with or cancel exiting the game
 void boardwindow::on_gameExitButton_clicked()
 {
+    ui->exitMenuOrClose->setText("Would you like to exit the game?");
+
     if(ui->gameExitConfirm->isHidden() == true){
-        if(ui->menuExit->isHidden() == false){
-            ui->exitPromptMenu->setHidden(true);
-            ui->menuExit->setHidden(true);
+        if(ui->exitToMenu->isHidden() == false){
+            ui->exitMenuOrClose->setHidden(true);
+            ui->exitToMenu->setHidden(true);
             ui->closeProgram->setHidden(true);
             ui->gameExitConfirm->setHidden(true);
             ui->gameExitDeny->setHidden(true);
-            ui->exitPrompt->setHidden(true);
         }
         else{
-            ui->exitPrompt->setHidden(false);
+            ui->exitMenuOrClose->setHidden(false);
             ui->gameExitConfirm->setHidden(false);
             ui->gameExitDeny->setHidden(false);
         }
     }
     else if(ui->gameExitConfirm->isHidden() == false){
-        ui->exitPrompt->setHidden(true);
+        ui->exitMenuOrClose->setHidden(true);
         ui->gameExitConfirm->setHidden(true);
         ui->gameExitDeny->setHidden(true);
     }
@@ -928,8 +934,10 @@ void boardwindow::on_gameExitButton_clicked()
 // They are then prompted if they want to close the program or enter the main menu
 void boardwindow::on_gameExitConfirm_clicked()
 {
-    ui->exitPromptMenu->setHidden(false);
-    ui->menuExit->setHidden(false);
+    ui->exitMenuOrClose->setText("Would you like to exit to the menu or close the program?");
+
+    ui->exitMenuOrClose->setHidden(false);
+    ui->exitToMenu->setHidden(false);
     ui->closeProgram->setHidden(false);
 
     ui->gameExitConfirm->setHidden(true);
@@ -939,9 +947,9 @@ void boardwindow::on_gameExitConfirm_clicked()
 // Button that when clicked will deny the action of exiting the game
 void boardwindow::on_gameExitDeny_clicked()
 {
+    ui->exitMenuOrClose->setHidden(true);
     ui->gameExitConfirm->setHidden(true);
     ui->gameExitDeny->setHidden(true);
-    ui->exitPrompt->setHidden(true);
 }
 
 // Button that when pressed is used to close the program
@@ -950,14 +958,17 @@ void boardwindow::on_closeProgram_clicked()
     close();
 }
 
-// Button that when pressed is used to exit to the main menu
-void boardwindow::on_menuExit_clicked()
+// Button that when pressed is used to exit to the main menu and hide the exit options
+void boardwindow::on_exitToMenu_clicked()
 {
+    ui->exitMenuOrClose->setHidden(true);
+    ui->exitToMenu->setHidden(true);
+    ui->closeProgram->setHidden(true);
+
     clearTrackers();
     this->hide();
     emit backToMenu();
 }
-
 
 /*
     Area to test out new functions and cleaner declarations
@@ -1005,6 +1016,8 @@ void boardwindow::getPlayerNames()
     One simple bug that is apparent is that the exit game menu does not reset
     itself for when the user re-enters the game. Look into fixing that.
 */
+
+// Confirms the names of player1 and player2 in twoPlayerMode, allows for more personalized tracking
 void boardwindow::on_nameConfirm_clicked()
 {
     ui->nameAskLabel->setHidden(true);
@@ -1021,6 +1034,7 @@ void boardwindow::on_nameConfirm_clicked()
     mpTurn();
 }
 
+// Function call to prompt players in twoPlayerMode if they want to change who goes first
 void boardwindow::changeSidesOffer()
 {
     ui->playAgainPrompt->setHidden(true);
@@ -1032,7 +1046,7 @@ void boardwindow::changeSidesOffer()
     ui->doNotChange->setHidden(false);
 }
 
-
+// Function call to reset twoPlayerMode with the same player going first
 void boardwindow::on_doNotChange_clicked()
 {
     hideChoices();
@@ -1040,7 +1054,7 @@ void boardwindow::on_doNotChange_clicked()
     mpTurn();
 }
 
-
+// Function that is called when in twoPlayerMode the players want to chagne who goes first
 void boardwindow::on_performChange_clicked()
 {
     int holdWins = p2Wins;
@@ -1056,6 +1070,7 @@ void boardwindow::on_performChange_clicked()
     mpTurn();
 }
 
+// Function that is called to reset the tracking of wins and draws between play sessions
 void boardwindow::clearTrackers()
 {
     ui->winTracker->setHidden(true);
@@ -1065,3 +1080,31 @@ void boardwindow::clearTrackers()
     cpuWins = 0;
     playerWins = 0;
 }
+
+
+// Function used in a resize event to center the playing board and reposition settings
+void boardwindow::centerBoard()
+{
+    int x = (this->width() - ui->boardLocation->width()) / 2;
+    int y = (this->height() - ui->boardLocation->height()) / 2;
+
+    ui->boardLocation->move(x, y);
+
+    x = this->width() - ui->exitWidget->width() - 10;
+    y = ui->exitWidget->height() / 2;
+
+    ui->exitWidget->move(x, y);
+}
+
+// Override definition of resizeEvent to allow for proper movement of boardwindow ui objects
+void boardwindow::resizeEvent(QResizeEvent *event)
+{
+    QWidget::resizeEvent(event);
+
+    res = this->width();
+
+    centerBoard();
+}
+
+
+

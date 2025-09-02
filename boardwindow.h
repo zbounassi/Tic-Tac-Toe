@@ -77,9 +77,11 @@ private slots:
     void on_gameExitConfirm_clicked();
     void on_gameExitDeny_clicked();
     void on_closeProgram_clicked();
-    void on_menuExit_clicked();
+    void on_exitToMenu_clicked();
 
-    // void centerBoard();
+
+    void resizeEvent(QResizeEvent *event) override;
+    void centerBoard();
     void showWinTracker();
     void clearTrackers();
 
@@ -89,6 +91,7 @@ private slots:
     void on_performChange_clicked();
     void on_doNotChange_clicked();
     void changeSidesOffer();
+
 
 signals:
     void backToMenu();

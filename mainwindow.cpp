@@ -10,6 +10,7 @@
 #include <QApplication>
 #include <QPalette>
 
+bool enableFullscreen = false;
 int res;
 std::string gameMode;
 std::string difficulty;
@@ -251,11 +252,22 @@ void MainWindow::on_playHardCPUButton_clicked()
 */
 void MainWindow::resizeSelected()
 {
-    if(res == 800)
+
+    QRect screenGeo = this->screen()->availableGeometry();
+
+    int x, y;
+
+    if(res == 800){
         this->resize(800, 600);
-    else if(res == 1280)
+        x = (screenGeo.width() - this->width()) / 2;
+        y = (screenGeo.height() - this->height()) / 2;
+        this->move(x, y);
+    }else if(res == 1280){
         this->resize(1280, 720);
-    else{
+        x = (screenGeo.width() - this->width()) / 2;
+        y = (screenGeo.height() - this->height()) / 2;
+        this->move(x, y);
+    }else if(res == 1920){
         this->resize(1920, 1000);
         this->move(0,0);
     }
@@ -270,10 +282,13 @@ void MainWindow::resizeSelected()
 */
 void MainWindow::on_fullscreenBox_clicked()
 {
-    if(ui->fullscreenBox->isChecked() == true)
+    if(ui->fullscreenBox->isChecked() == true){
         this->setWindowState(Qt::WindowFullScreen);
+        enableFullscreen = true;
+    }
     else{
         this->setWindowState(Qt::WindowNoState);
+        enableFullscreen = false;
         resizeSelected(); // need to define this
     }
     this->show();
@@ -324,6 +339,8 @@ void MainWindow::on_res1920_clicked()
 void MainWindow::resizeEvent(QResizeEvent *event){
     QMainWindow::resizeEvent(event);
 
+    res = this->width();
+
     repositionButtons();
 }
 
@@ -335,6 +352,7 @@ void MainWindow::repositionButtons()
     repositionSettingsButtons();
 }
 
+// Function definition that is used to reposition menu buttons on resolution change
 void MainWindow::repositionMenuButtons()
 {
     int x = (this->width() - ui->titleText->width()) / 2;
@@ -357,6 +375,7 @@ void MainWindow::repositionMenuButtons()
     }
 }
 
+// Function definition that is used to reposition play buttons on resolution change
 void MainWindow::repositionPlayButtons()
 {
     ui->backButtonCPUselect->move(ui->exitButton->pos());
@@ -378,6 +397,7 @@ void MainWindow::repositionPlayButtons()
     ui->playHardCPUButton->move(pos.x() + spacing, pos.y());
 }
 
+// Function definition that is used to reposition settings buttons on resolution change
 void MainWindow::repositionSettingsButtons()
 {
     int x = (this->width() / 12);
@@ -409,6 +429,7 @@ void MainWindow::repositionSettingsButtons()
 
 }
 
+// Button used to display and hide resolution options
 void MainWindow::on_resolutionSettings_clicked()
 {
     if(ui->res800->isHidden()){
@@ -425,9 +446,7 @@ void MainWindow::on_resolutionSettings_clicked()
     ui->lightMode->setHidden(true);
 }
 
-
-
-
+// Button used to show and hide theme options
 void MainWindow::on_themeSelect_clicked()
 {
     if(ui->darkMode->isHidden()){
@@ -444,7 +463,7 @@ void MainWindow::on_themeSelect_clicked()
     ui->res1920->setHidden(true);
 }
 
-
+// Checkbox used for the user to select if they do or do not want the win tracker shown
 void MainWindow::on_trackerBox_clicked()
 {
     if(ui->trackerBox->isChecked() == true)
